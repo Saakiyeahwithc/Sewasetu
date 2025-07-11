@@ -1,6 +1,6 @@
 export function Jobsearch() {
   return (
-    <section className="mt-24 bg-white rounded-2xl shadow-lg p-8">
+    <section className="mt-24 bg-white rounded-2xl shadow-lg p-8 max-w-7xl mx-auto">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-4">
           Find Jobs Near You

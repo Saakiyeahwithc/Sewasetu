@@ -1,3 +1,5 @@
+import { Moon } from "lucide-react";
+
 export function Navbar() {
   return (
     <div className="max-w-7xl items-center justify-center mx-auto">
@@ -36,12 +38,12 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          {/* <b
-          size="icon"
-          className="rounded-full bg-emerald-100 hover:bg-emerald-200"
+          <b
+            size="icon"
+            className="rounded-full bg-emerald-100 hover:bg-emerald-200 h-10 w-10 cursor-pointer flex items-center justify-center transition-colors mr-5"
           >
-          <Moon className="w-4 h-4 text-emerald-700" />
-        </b> */}
+            <Moon className="size-6 text-emerald-700" />
+          </b>
           <b className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg">
             Login
           </b>

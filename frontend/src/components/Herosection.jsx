@@ -2,7 +2,7 @@ import { Users } from "lucide-react";
 
 const Herosection = () => {
   return (
-    <main className="max-w-7xl container mx-auto px-6 pt-24">
+    <main className="max-w-7xl container mx-auto px-6 pt-24 mb-50">
       <div className="grid lg:grid-cols-2 gap-12 items-center">
         {/* Left Content */}
         <div className="space-y-8">

@@ -6,6 +6,11 @@ import Featuredjobs from "./components/Featuredjobs";
 import Working from "./components/working";
 import EmployerDashboard from "./components/Employerdashboard";
 import JobseekerDashboard from "./components/Jobseekerdashboard";
+import Endnote from "./components/Endnote";
+import Footer from "./components/Footer";
+
+
+
 function App() {
   return (
     <>
@@ -15,7 +20,9 @@ function App() {
       <Featuredjobs />
       <Working />
       <JobseekerDashboard />
-      {/* <EmployerDashboard /> */}
+      <EmployerDashboard />
+      <Endnote />
+      <Footer />
     </>
   );
 }
