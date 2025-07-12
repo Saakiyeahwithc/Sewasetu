@@ -1,6 +1,6 @@
 export function Endnote() {
   return (
-    <section className="mt-24 bg-emerald-600 text-white rounded-2xl p-16 text-center ">
+    <section className="mt-24 bg-emerald-600 text-white  p-16 text-center ">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl font-bold mb-6">
           Ready to Find or Post Local Jobs?

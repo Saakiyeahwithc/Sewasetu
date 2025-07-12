@@ -1,13 +1,11 @@
 import "./App.css";
-import HeroSection from "./components/HeroSection";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Jobsearch from "./components/Jobsearch";
-import Featuredjobs from "./components/Featuredjobs";
-import Working from "./components/working";
+import Home from "./pages/Home";
 import EmployerDashboard from "./components/Employerdashboard";
 import JobseekerDashboard from "./components/Jobseekerdashboard";
-import Endnote from "./components/Endnote";
-import Footer from "./components/Footer";
+import Login from "./pages/login";
+import About from "./pages/About";
 
 
 
@@ -15,14 +13,13 @@ function App() {
   return (
     <>
       <Navbar />
-      <HeroSection />
-      <Jobsearch />
-      <Featuredjobs />
-      <Working />
-      <JobseekerDashboard />
-      <EmployerDashboard />
-      <Endnote />
-      <Footer />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/employerdashboard" element={<EmployerDashboard />} />
+        <Route path="/jobseekerdashboard" element={<JobseekerDashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<About />} />
+      </Routes>
     </>
   );
 }

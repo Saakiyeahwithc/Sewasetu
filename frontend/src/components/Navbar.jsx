@@ -1,6 +1,8 @@
 import { Moon } from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export function Navbar() {
+  const navigate = useNavigate();
   return (
     <div className="max-w-7xl items-center justify-center mx-auto">
       <header className=" flex items-center justify-between px-6 py-4 bg-white/80 backdrop-blur-sm">
@@ -14,42 +16,50 @@ export function Navbar() {
         </div>
 
         <nav className="hidden md:flex items-center gap-8">
-          <a
-            href="#"
+          <NavLink
+            to="/"
             className="text-emerald-600 font-medium hover:text-emerald-700"
           >
             Home
-          </a>
-          <a href="#" className="text-gray-600 hover:text-gray-800">
+          </NavLink>
+          <NavLink
+            to="/Featuredjobs"
+            className="text-gray-600 hover:text-gray-800"
+          >
             Find Jobs
-          </a>
-          <a href="#" className="text-gray-600 hover:text-gray-800">
+          </NavLink>
+          <NavLink to="#" className="text-gray-600 hover:text-gray-800">
             Post a Job
-          </a>
-          <a href="#" className="text-gray-600 hover:text-gray-800">
+          </NavLink>
+          <NavLink to="#" className="text-gray-600 hover:text-gray-800">
             Skill Development
-          </a>
-          <a href="#" className="text-gray-600 hover:text-gray-800">
+          </NavLink>
+          <NavLink to="/About" className="text-gray-600 hover:text-gray-800">
             About
-          </a>
-          <a href="#" className="text-gray-600 hover:text-gray-800">
+          </NavLink>
+          <NavLink to="/Contact" className="text-gray-600 hover:text-gray-800">
             Contact
-          </a>
+          </NavLink>
         </nav>
 
         <div className="flex items-center gap-3">
-          <b
+          <button
             size="icon"
             className="rounded-full bg-emerald-100 hover:bg-emerald-200 h-10 w-10 cursor-pointer flex items-center justify-center transition-colors mr-5"
           >
             <Moon className="size-6 text-emerald-700" />
-          </b>
-          <b className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg">
+          </button>
+          <button
+            onClick={() => {
+              navigate("/Login");
+            }}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg cursor-pointer"
+          >
             Login
-          </b>
-          <b className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 px-6 bg-transparent">
+          </button>
+          <button className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 px-6 bg-transparent cursor-pointer">
             Register
-          </b>
+          </button>
         </div>
       </header>
     </div>
