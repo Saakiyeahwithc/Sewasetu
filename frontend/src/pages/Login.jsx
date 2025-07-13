@@ -57,7 +57,7 @@ export function Login() {
                         id="email"
                         type="email"
                         placeholder="Enter your email"
-                        className="w-full h-12 px-4 pr-12 text-base border border-emerald-500 rounded-md shadow-sm bg-white text-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:bg-gray-400 dark:text-white dark:border-emerald-700"
+                        className="w-full h-12 px-4 pr-12 text-base border border-emerald-500 rounded-md shadow-sm bg-white text-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:bg-gray-300 dark:text-white dark:border-emerald-700"
                         required
                       />
                     </div>
@@ -74,7 +74,7 @@ export function Login() {
                           id="password"
                           type={showPassword ? "text" : "password"}
                           placeholder="Enter your password"
-                          className="w-full h-12 px-4 pr-12 text-base border border-emerald-500 rounded-md shadow-sm bg-white text-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:bg-gray-400 dark:text-white dark:border-emerald-700"
+                          className="w-full h-12 px-4 pr-12 text-base border border-emerald-500 rounded-md shadow-sm bg-white text-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:bg-gray-300 dark:text-white dark:border-emerald-700"
                           required
                         />
                         <button
@@ -121,46 +121,55 @@ export function Login() {
                 <CardContent className="space-y-6 p-0">
                   <form className="space-y-4">
                     <div className="space-y-2">
-                      {/* Email Field */}
-                      <div className="space-y-6">
-                        <label
-                          htmlFor="employer-email"
-                          className="text-sm font-medium text-black"
-                        >
-                          Company Email Address
-                        </label>
-                        <input
-                          id="employer-email"
-                          type="email"
-                          placeholder="Enter your email address"
-                          required
-                          className="w-full h-12 px-4 text-base border border-emerald-500 rounded-md shadow-sm bg-white text-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:bg-gray-400 dark:text-white dark:border-emerald-700"
-                        />
-                      </div>
+                      <label
+                        htmlFor="email"
+                        className="text-sm font-medium text-black"
+                      >
+                        Company's Email Address
+                      </label>
+                      <input
+                        id="email"
+                        type="email"
+                        placeholder="Enter your email"
+                        className="w-full h-12 px-4 pr-12 text-base border border-blue-500 rounded-md shadow-sm bg-white text-blue-800  focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-300 dark:text-white dark:border-blue-700"
+                        required
+                      />
+                    </div>
 
-                      {/* Password Field */}
-                      <div className="space-y-4">
-                        <label
-                          htmlFor="employer-password"
-                          className="text-sm font-medium text-black"
-                        >
-                          Password
-                        </label>
+                    <div className="space-y-2">
+                      <label
+                        htmlFor="password"
+                        className="text-sm font-medium text-black"
+                      >
+                        Password
+                      </label>
+                      <div className="relative">
                         <input
-                          id="employer-password"
-                          type={showEmployerPassword ? "text" : "password"}
+                          id="password"
+                          type={showPassword ? "text" : "password"}
                           placeholder="Enter your password"
+                          className="w-full h-12 px-4 pr-12 text-base border border-blue-500 rounded-md shadow-sm bg-white text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-300 dark:text-white dark:border-blue-700"
                           required
-                          className="w-full h-12 px-4 pr-12 text-base border border-emerald-500 rounded-md shadow-sm bg-white text-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:bg-gray-400 dark:text-white dark:border-emerald-700"
                         />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-700"
+                        >
+                          {showPassword ? (
+                            <EyeOff className="w-5 h-5" />
+                          ) : (
+                            <Eye className="w-5 h-5" />
+                          )}
+                        </button>
                       </div>
                     </div>
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <Checkbox id="employer-remember" />
+                        <Checkbox id="remember" />
                         <label
-                          htmlFor="employer-remember"
+                          htmlFor="remember"
                           className="text-sm text-gray-600"
                         >
                           Remember me

@@ -37,7 +37,7 @@ const Herosection = () => {
         <div className="relative">
           <div className="rounded-2xl overflow-hidden shadow-2xl">
             <img
-              src="...."
+              src="/FB_IMG_20231001_123456.jpg"
               alt="Professional handshake representing job connections"
               width={600}
               height={400}

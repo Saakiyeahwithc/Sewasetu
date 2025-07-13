@@ -3,6 +3,13 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 export function Navbar() {
   const navigate = useNavigate();
+  const isActive = ({ isActive }) =>
+    isActive
+      ? "text-emerald-600 font-medium"
+      : "text-gray-600 hover:text-gray-800";
+  const active = "text-emerald-600 font-medium";
+  const inactive = "text-gray-600 hover:text-gray-800";
+
   return (
     <div className="max-w-7xl items-center justify-center mx-auto">
       <header className=" flex items-center justify-between px-6 py-4 bg-white/80 backdrop-blur-sm">
@@ -24,20 +31,32 @@ export function Navbar() {
           </NavLink>
           <NavLink
             to="/Featuredjobs"
-            className="text-gray-600 hover:text-gray-800"
+            className={({ isActive }) => `${isActive ? active : inactive}`}
           >
             Find Jobs
           </NavLink>
-          <NavLink to="#" className="text-gray-600 hover:text-gray-800">
+          <NavLink
+            to="/PostJob"
+            className={({ isActive }) => `${isActive ? active : inactive}`}
+          >
             Post a Job
           </NavLink>
-          <NavLink to="#" className="text-gray-600 hover:text-gray-800">
+          <NavLink
+            to="/SkillDevelopment"
+            className={({ isActive }) => `${isActive ? active : inactive}`}
+          >
             Skill Development
           </NavLink>
-          <NavLink to="/About" className="text-gray-600 hover:text-gray-800">
+          <NavLink
+            to="/About"
+            className={({ isActive }) => `${isActive ? active : inactive}`}
+          >
             About
           </NavLink>
-          <NavLink to="/Contact" className="text-gray-600 hover:text-gray-800">
+          <NavLink
+            to="/Contact"
+            className={({ isActive }) => `${isActive ? active : inactive}`}
+          >
             Contact
           </NavLink>
         </nav>
