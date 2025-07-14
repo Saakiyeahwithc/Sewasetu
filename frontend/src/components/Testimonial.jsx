@@ -1,6 +1,6 @@
 export function Testimonial() {
   return (
-    <section className="mt-24 max-w-7xl mx-auto">
+    <section className="mt-24 max-w-7xl mx-auto mb-24">
       <div className="bg-emerald-700 rounded-2xl p-8 md:p-12 text-white">
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           {/* Left Content */}

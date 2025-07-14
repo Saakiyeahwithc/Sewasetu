@@ -25,7 +25,7 @@ export function Navbar() {
         <nav className="hidden md:flex items-center gap-8">
           <NavLink
             to="/"
-            className="text-emerald-600 font-medium hover:text-emerald-700"
+            className={({ isActive }) => `${isActive ? active : inactive}`}
           >
             Home
           </NavLink>
@@ -76,7 +76,12 @@ export function Navbar() {
           >
             Login
           </button>
-          <button className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 px-6 bg-transparent cursor-pointer">
+          <button
+            onClick={() => {
+              navigate("/Register");
+            }}
+            className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 px-6 bg-transparent cursor-pointer"
+          >
             Register
           </button>
         </div>

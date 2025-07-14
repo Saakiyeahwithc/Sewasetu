@@ -1,12 +1,11 @@
 import { Globe, Handshake, Smartphone } from "lucide-react";
-import { User } from "lucide-react";
 
 export function Ourmission() {
   return (
-    <section className="py-16 px-4 md:px-6 lg:px-8 bg-blue-50">
+    <section className="py-16 px-4 md:px-6 lg:px-8 bg-emerald-50 max-w-7xl mx-auto rounded-lg">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <p className="text-blue-600 font-semibold text-sm uppercase tracking-wide mb-4">
+          <p className="text-emerald-600 font-semibold text-sm uppercase tracking-wide mb-4">
             OUR MISSION
           </p>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
@@ -18,7 +17,7 @@ export function Ourmission() {
           {/* Local Opportunities */}
           <div className="bg-white p-6 rounded-lg shadow-sm">
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-              <Globe className="w-6 h-6 text-blue-600" />
+              <Globe className="w-6 h-6 text-emerald-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-3">
               Local Opportunities
@@ -32,7 +31,7 @@ export function Ourmission() {
           {/* Community Growth */}
           <div className="bg-white p-6 rounded-lg shadow-sm">
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-              <Handshake className="w-6 h-6 text-blue-600" />
+              <Handshake className="w-6 h-6 text-emerald-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-3">
               Community Growth
@@ -46,7 +45,7 @@ export function Ourmission() {
           {/* Digital Inclusion */}
           <div className="bg-white p-6 rounded-lg shadow-sm">
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-              <Smartphone className="w-6 h-6 text-blue-600" />
+              <Smartphone className="w-6 h-6 text-emerald-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-3">
               Digital Inclusion
