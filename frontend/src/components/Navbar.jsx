@@ -3,10 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 export function Navbar() {
   const navigate = useNavigate();
-  const isActive = ({ isActive }) =>
-    isActive
-      ? "text-emerald-600 font-medium"
-      : "text-gray-600 hover:text-gray-800";
+
   const active = "text-emerald-600 font-medium";
   const inactive = "text-gray-600 hover:text-gray-800";
 

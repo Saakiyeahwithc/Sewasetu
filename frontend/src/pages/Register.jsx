@@ -1,16 +1,44 @@
 import { Users, Briefcase } from "lucide-react";
-import { Toast, showToast, setShowToast } from "../components/ui/Toast";
+import Toast from "../components/ui/Toast";
+import { showToast } from "../components/ui/Toast";
+import { useState } from "react";
 
 export function Register() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [errors] = useState({});
+  const [isSubmitting] = useState(false);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // 3️⃣ submit
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // trigger toast
-    showToast({
-      title: "Account created!",
-      description: "Welcome to Sewa Setu 🎉",
-      variant: "success",
-    });
+    // rudimentary client‑side check
+    if (formData.password !== formData.confirm) {
+      showToast({ message: "Passwords do not match", type: "error" });
+      return;
+    }
+  };
+
+  const isFormValid =
+    formData.name.trim() !== "" &&
+    formData.email.includes("@") &&
+    formData.password.length >= 6 &&
+    formData.password === formData.confirm;
+
+  const [showPassword] = useState(false);
+
+  const [userType, setUserType] = useState("jobseeker"); // default type
+
+  const handleUserTypeChange = (type) => {
+    setUserType(type);
   };
 
   // Simulate a redirect after account creation
@@ -20,7 +48,7 @@ export function Register() {
         <Toast
           message="Account created successfully! Redirecting..."
           type="success"
-          onClose={() => setShowToast(false)}
+          onClose={() => showToast(false)}
         />
       )}
 
@@ -84,7 +112,6 @@ export function Register() {
                 onChange={handleInputChange}
                 error={errors.fullName}
                 placeholder="Enter your full name"
-                required
               />
 
               <input
@@ -95,19 +122,16 @@ export function Register() {
                 onChange={handleInputChange}
                 error={errors.email}
                 placeholder="Enter your email address"
-                required
               />
 
               <input
                 label="Password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
                 error={errors.password}
                 placeholder="Create a strong password"
-                required
-                showPasswordToggle
               />
 
               <input
@@ -118,8 +142,6 @@ export function Register() {
                 onChange={handleInputChange}
                 error={errors.confirmPassword}
                 placeholder="Confirm your password"
-                required
-                showPasswordToggle
               />
 
               {/* User Type Selection */}
@@ -132,7 +154,7 @@ export function Register() {
                     type="button"
                     onClick={() => handleUserTypeChange("jobseeker")}
                     className={`p-4 border-2 rounded-lg text-center transition-all ${
-                      formData.userType === "jobseeker"
+                      userType === "jobseeker"
                         ? "border-emerald-500 bg-emerald-50 text-emerald-700"
                         : "border-gray-200 hover:border-gray-300"
                     }`}
@@ -148,7 +170,7 @@ export function Register() {
                     type="button"
                     onClick={() => handleUserTypeChange("employer")}
                     className={`p-4 border-2 rounded-lg text-center transition-all ${
-                      formData.userType === "employer"
+                      userType === "employer"
                         ? "border-emerald-500 bg-emerald-50 text-emerald-700"
                         : "border-gray-200 hover:border-gray-300"
                     }`}
@@ -199,9 +221,9 @@ export function Register() {
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={!isFormValid() || isSubmitting}
+                disabled={!isFormValid || isSubmitting}
                 className={`w-full py-3 px-4 rounded-lg font-medium transition-all ${
-                  isFormValid() && !isSubmitting
+                  isFormValid && !isSubmitting
                     ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg hover:shadow-xl"
                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
@@ -235,5 +257,4 @@ export function Register() {
     </div>
   );
 }
-
 export default Register;
