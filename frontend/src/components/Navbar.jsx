@@ -27,7 +27,7 @@ export function Navbar() {
             Home
           </NavLink>
           <NavLink
-            to="/Featuredjobs"
+            to="/FindJobs"
             className={({ isActive }) => `${isActive ? active : inactive}`}
           >
             Find Jobs

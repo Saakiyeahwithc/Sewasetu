@@ -6,7 +6,7 @@ export function Whoweare() {
           {/* Image Section */}
           <div className="relative">
             <img
-              src="/images/handshake.png"
+              src="public/images/Women-in-Nepal.jpg"
               alt="Professional handshake representing partnership and collaboration"
               width={600}
               height={400}
