@@ -7,7 +7,6 @@ import JobseekerDashboard from "./components/Jobseekerdashboard";
 import Login from "./pages/login";
 import About from "./pages/About";
 import Register from "./pages/Register";
-import Contact from "./pages/Contact";
 import SkillDevelopmentPage from "./pages/Skilldevelopment";
 import FindJobs from "./pages/FindJobs";
 import PostJob from "./pages/Postjobs";
@@ -22,7 +21,6 @@ function App() {
         <Route path="/jobseekerdashboard" element={<JobseekerDashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
         <Route path="/register" element={<Register />} />
         <Route path="/SkillDevelopment" element={<SkillDevelopmentPage />} />
         <Route path="/FindJobs" element={<FindJobs />} />

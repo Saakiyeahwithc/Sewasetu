@@ -50,14 +50,7 @@ export function Navbar() {
           >
             About
           </NavLink>
-          <NavLink
-            to="/Contact"
-            className={({ isActive }) => `${isActive ? active : inactive}`}
-          >
-            Contact
-          </NavLink>
         </nav>
-
         <div className="flex items-center gap-3">
           <button
             size="icon"
