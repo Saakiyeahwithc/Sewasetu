@@ -11,7 +11,6 @@ export function Whoweare() {
               width={600}
               height={400}
               className="rounded-lg object-cover w-full h-auto"
-              priority
             />
           </div>
 

@@ -1,6 +1,8 @@
 import { Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Herosection = () => {
+  const navigate = useNavigate();
   return (
     <main className="max-w-7xl container mx-auto px-6 pt-24 mb-50">
       <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -17,10 +19,16 @@ const Herosection = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-6 text-lg font-medium rounded-lg">
+            <button
+              onClick={() => navigate("/FindJobs")}
+              className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-6 text-lg font-medium rounded-lg"
+            >
               {"I'm Looking for Work"}
             </button>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg font-medium rounded-lg">
+            <button
+              onClick={() => navigate("/Register")}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg font-medium rounded-lg"
+            >
               {"I'm Hiring"}
             </button>
           </div>
@@ -37,7 +45,7 @@ const Herosection = () => {
         <div className="relative">
           <div className="rounded-2xl overflow-hidden shadow-2xl">
             <img
-              src="./images/istockphoto-1321234567-612x612.jpg"
+              src="../images/c2.jpg"
               alt="Professional handshake representing job connections"
               width={600}
               height={400}

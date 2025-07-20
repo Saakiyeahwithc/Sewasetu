@@ -25,7 +25,7 @@ export function Footer() {
             <ul className="space-y-3">
               <li>
                 <a
-                  href="#"
+                  href="/FindJobs"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   Browse Jobs
@@ -33,7 +33,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/Register"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   Create Profile
