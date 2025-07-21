@@ -57,7 +57,7 @@ export function Login() {
                         id="email"
                         type="email"
                         placeholder="Enter your email"
-                        className="w-full h-12 px-4 pr-12 text-base border border-emerald-500 rounded-md shadow-sm bg-white text-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:bg-gray-300 dark:text-white dark:border-emerald-700"
+                        className="w-full h-12 px-4 pr-12 text-base border border-emerald-500 rounded-md shadow-sm bg-white text-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:bg-gray-300 dark:text-black dark:border-emerald-700"
                         required
                       />
                     </div>
@@ -74,7 +74,7 @@ export function Login() {
                           id="password"
                           type={showPassword ? "text" : "password"}
                           placeholder="Enter your password"
-                          className="w-full h-12 px-4 pr-12 text-base border border-emerald-500 rounded-md shadow-sm bg-white text-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:bg-gray-300 dark:text-white dark:border-emerald-700"
+                          className="w-full h-12 px-4 pr-12 text-base border border-emerald-500 rounded-md shadow-sm bg-white text-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:bg-gray-300 dark:text-black dark:border-emerald-700"
                           required
                         />
                         <button
@@ -131,7 +131,7 @@ export function Login() {
                         id="email"
                         type="email"
                         placeholder="Enter your email"
-                        className="w-full h-12 px-4 pr-12 text-base border border-blue-500 rounded-md shadow-sm bg-white text-blue-800  focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-300 dark:text-white dark:border-blue-700"
+                        className="w-full h-12 px-4 pr-12 text-base border border-blue-500 rounded-md shadow-sm bg-white text-blue-800  focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-300 dark:text-black dark:border-blue-700"
                         required
                       />
                     </div>
@@ -148,7 +148,7 @@ export function Login() {
                           id="password"
                           type={showPassword ? "text" : "password"}
                           placeholder="Enter your password"
-                          className="w-full h-12 px-4 pr-12 text-base border border-blue-500 rounded-md shadow-sm bg-white text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-300 dark:text-white dark:border-blue-700"
+                          className="w-full h-12 px-4 pr-12 text-base border border-blue-500 rounded-md shadow-sm bg-white text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-300 dark:text-black dark:border-blue-700"
                           required
                         />
                         <button

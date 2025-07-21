@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
-export function Testimonial({ autoplay = false }) {
+export function Testimonial({ autoplay = true }) {
   const testimonials = [
     {
       quote:
@@ -16,14 +16,14 @@ export function Testimonial({ autoplay = false }) {
         "Implementation was seamless and the results exceeded our expectations. The platform's flexibility is remarkable.",
       name: "Prashant Shakya",
       designation: "Backend Developer at Sewa Setu",
-      src: "../images/1.jpg"
+      src: "../images/1.jpg",
     },
     {
       quote:
         "This solution has significantly improved our team's productivity. The intuitive interface makes complex tasks simple.",
-      name: "Emily Watson",
-      designation: "Operations Director at CloudScale",
-      src: "https://images.unsplash.com/photo-1623582854588-d60de57fa33f?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      name: "Winner Puma Rai",
+      designation: "Frontend Developer at Sewa Setu",
+      src: "../images/c3.jpg",
     },
   ];
   const [active, setActive] = useState(0);
