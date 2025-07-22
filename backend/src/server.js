@@ -6,7 +6,7 @@ import dbConnection from "./config/dbconfig.js";
 import cookieParser from "cookie-parser";
 // import { seedAdmin } from "./config/seedAdmin.js";
 import cors from "cors";
-import userRoute from "./routes/userRoute.js";
+import Routes from "./routes/indexRoute.js";
 
 //configuring dotenv
 dotenv.config();
@@ -31,7 +31,7 @@ app.use(
 //SeedAdmin
 // seedAdmin();
 
-app.use("/api/user", userRoute);
+app.use("/api", Routes);
 
 //app-run
 dbConnection().then(() => {
