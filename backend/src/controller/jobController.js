@@ -20,10 +20,11 @@ export const postJob = async (req, res) => {
 
 export const getAllJobs = async (req, res) => {
   try {
-    const job = await job.find();
+    const job = await Job.find();
     res.status(200).json({
       status: true,
       message: "Jobs fetched successfully.",
+      data: job,
     });
   } catch (error) {
     console.log(error);
@@ -35,9 +36,9 @@ export const getAllJobs = async (req, res) => {
   }
 };
 
-export const getJobsById = async (req, res) => {
+export const getJobById = async (req, res) => {
   try {
-    const job = await job.findById(req.params.id);
+    const job = await Job.findById(req.params.id);
     if (!job || job.length === 0) {
       return res.satus(404).json({
         status: false,
@@ -47,7 +48,55 @@ export const getJobsById = async (req, res) => {
     res.status(200).json({
       status: true,
       message: "job fetched successfully",
-      data: user,
+      data: job,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: false,
+      message: "Error occured",
+      error: error.message,
+    });
+  }
+};
+
+export const deleteJob = async (req, res) => {
+  try {
+    const job = await Job.findByIdAndDelete(req.params.id);
+    if (!job || job.length === 0) {
+      return res.satus(404).json({
+        status: false,
+        message: "No jobs found.",
+      });
+    }
+    res.status(200).json({
+      status: true,
+      message: "job deleted successfully",
+      data: job,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: false,
+      message: "Error occured",
+      error: error.message,
+    });
+  }
+};
+
+export const updateJob = async (req, res) => {
+  try {
+    const job = await Job.findByIdAndUpdate(req.params.id);
+    if (!job || job.length === 0) {
+      return res.satus(404).json({
+        status: false,
+        message: "No jobs found.",
+      });
+    }
+    res.status(200).json({
+      status: true,
+      message: "job updated successfully",
+      data: job,
     });
   } catch (error) {
     console.log(error);
