@@ -68,7 +68,7 @@ export function Navbar() {
           </button>
           <button
             onClick={() => {
-              navigate("/Register");
+              navigate ("/Register");
             }}
             className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 px-6 bg-transparent cursor-pointer"
           >
