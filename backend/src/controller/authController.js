@@ -2,6 +2,37 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import User from "../model/User.js";
 
+// signing the jwt token
+const signAndSendToken = (user, statusCode, res) => {
+  const token = jwt.sign({ id: user._id }, process.env.KEY, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+    sameSite: "strict",
+  };
+
+  // passwords should not show up even if its hashed
+  user.password = undefined;
+
+  res
+    .status(statusCode)
+    .cookie("jwt", token, cookieOptions) // sending jwt token via cookie
+    .json({
+      status: "success",
+      message: `Welcome ${user.fullName}!`,
+      token,
+      data: {
+        user,
+      },
+    });
+};
+
+
 //Logging in users
 export const login = async (req, res) => {
   try {
@@ -52,35 +83,6 @@ export const login = async (req, res) => {
   }
 };
 
-// signing the jwt token
-const signAndSendToken = (user, statusCode, res) => {
-  const token = jwt.sign({ id: user._id }, process.env.KEY, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
-
-  const cookieOptions = {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-    ),
-    httpOnly: true,
-    sameSite: "strict",
-  };
-
-  // passwords should not show up even if its hashed
-  user.password = undefined;
-
-  res
-    .status(statusCode)
-    .cookie("jwt", token, cookieOptions) // sending jwt token via cookie
-    .json({
-      status: "success",
-      message: `Welcome ${user.fullName}!`,
-      token,
-      data: {
-        user,
-      },
-    });
-};
 
 //Register New user
 export const register = async (req, res, next) => {

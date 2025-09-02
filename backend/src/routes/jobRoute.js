@@ -1,5 +1,6 @@
 import {
   createJob,
+  getJobs,
   getAllJobs,
   getJobById,
   updateJob,
@@ -13,13 +14,12 @@ import { authenticateToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/").post(authenticateToken, createJob).get(getAllJobs);
-router.route("/get-jobs-employer").get(authenticateToken, getJobsEmployer);
-router
-  .route("/:id")
-  .get(getJobById)
-  .put(authenticateToken, updateJob)
-  .delete(authenticateToken, deleteJob);
-router.put("/:id/toggle-close", authenticateToken, toggleCloseJob);
+router.post("/create", authenticateToken, createJob);
+router.get("/get", authenticateToken, getAllJobs);
+router.get("/get-jobs-employer", authenticateToken, getJobsEmployer);
+router.delete("/delete/:id", authenticateToken, deleteJob);
+router.get("/get/:id", authenticateToken, getJobById);
+router.put("/update/:id", authenticateToken, updateJob);
+router.put("/toggle-close/:id", authenticateToken, toggleCloseJob);
 
 export default router;

@@ -2,7 +2,6 @@ import Job from "../model/job.js";
 import User from "../model/User.js";
 import Application from "../model/Application.js";
 import SavedJob from "../model/SavedJob.js";
-import { application } from "express";
 
 export const getJobs = async (req, res) => {
   const { keyword, location, category, type, minSalary, maxSalary, userId } =
@@ -91,15 +90,15 @@ export const getJobById = async (req, res) => {
   try {
     const userId = req.user._id;
     const job = await Job.findById(req.params.id);
-    if (!job || job.length === 0) {
-      return res.satus(404).json({
+    if (!job) {
+      return res.status(404).json({
         status: false,
         message: "No jobs found.",
       });
     }
     let applicationStatus = null;
     if (userId) {
-      const appplication = await Application.findOne({
+      const application = await Application.findOne({
         job: job._id,
         applicant: userId,
       }).select("status");
@@ -127,7 +126,7 @@ export const deleteJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);
     if (!job || job.length === 0) {
-      return res.satus(404).json({
+      return res.status(404).json({
         status: false,
         message: "No jobs found.",
       });
@@ -157,7 +156,7 @@ export const updateJob = async (req, res) => {
   try {
     const job = await Job.findBydAndUpdate(req.params.id);
     if (!job)
-      return res.satus(404).json({
+      return res.status(404).json({
         status: false,
         message: "No jobs found.",
       });
@@ -189,7 +188,7 @@ export const updateJob = async (req, res) => {
 
 export const createJob = async (req, res) => {
   try {
-    if (req.user.role !== employer) {
+    if (req.user.role !== "employer") {
       return res.status(403).json({
         message: "Only employers can post jobs",
       });
@@ -198,7 +197,7 @@ export const createJob = async (req, res) => {
     res.status(201).json(job);
   } catch (err) {
     res.status(500).json({
-      message: "err.message",
+      message: err.message,
     });
   }
 };
@@ -210,7 +209,7 @@ export const getJobsEmployer = async (req, res) => {
     const { role } = req.user;
 
     if (role !== employer) {
-      return res.satus(403).json({ message: "Access denied" });
+      return res.status(403).json({ message: "Access denied" });
     }
 
     //Get all jobs posted by employer
