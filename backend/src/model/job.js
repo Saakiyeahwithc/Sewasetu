@@ -10,23 +10,34 @@ const jobSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    company: {
+    requirements: {
       type: String,
       required: true,
     },
     location: {
       type: String,
-      required: true,
     },
-    salary: {
-      type: Number,
+    category: {
+      type: String,
+    },
+    type: {
+      type: String,
+      enum: ["Remote", "Full-Time", "Part-Time"],
       required: true,
     },
     postedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: false,
+      required: true,
     },
+    company: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    salaryMin: { type: Number },
+    salaryMax: { type: Number },
+    isClosed: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

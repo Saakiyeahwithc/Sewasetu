@@ -32,18 +32,7 @@ export function Navbar() {
           >
             Find Jobs
           </NavLink>
-          <NavLink
-            to="/PostJob"
-            className={({ isActive }) => `${isActive ? active : inactive}`}
-          >
-            Post a Job
-          </NavLink>
-          <NavLink
-            to="/SkillDevelopment"
-            className={({ isActive }) => `${isActive ? active : inactive}`}
-          >
-            Skill Development
-          </NavLink>
+
           <NavLink
             to="/About"
             className={({ isActive }) => `${isActive ? active : inactive}`}
@@ -68,9 +57,9 @@ export function Navbar() {
           </button>
           <button
             onClick={() => {
-              navigate ("/Register");
+              navigate("/Register");
             }}
-            className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 px-6 bg-transparent cursor-pointer"
+            className="border-emerald-600 text-emerald-600 hover:bg-emerald-100 px-6 py-2 rounded-lg bg-transparent cursor-pointer"
           >
             Register
           </button>

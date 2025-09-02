@@ -1,17 +1,25 @@
 import {
-  deleteJob,
+  createJob,
   getAllJobs,
   getJobById,
-  postJob,
+  updateJob,
+  deleteJob,
+  toggleCloseJob,
+  getJobsEmployer,
 } from "../controller/jobController.js";
 
 import express from "express";
+import { authenticateToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", postJob);
-router.get("/", getAllJobs);
-router.get("/:id", getJobById);
-router.delete("/:id", deleteJob);
+router.route("/").post(authenticateToken, createJob).get(getAllJobs);
+router.route("/get-jobs-employer").get(authenticateToken, getJobsEmployer);
+router
+  .route("/:id")
+  .get(getJobById)
+  .put(authenticateToken, updateJob)
+  .delete(authenticateToken, deleteJob);
+router.put("/:id/toggle-close", authenticateToken, toggleCloseJob);
 
 export default router;

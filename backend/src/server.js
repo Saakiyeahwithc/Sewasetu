@@ -1,12 +1,13 @@
 //imports
 import express from "express";
 import dotenv from "dotenv";
-// import routes from "./routes/indexRoute.js";
 import dbConnection from "./config/dbconfig.js";
 import cookieParser from "cookie-parser";
-// import { seedAdmin } from "./config/seedAdmin.js";
 import cors from "cors";
-import Routes from "./routes/indexRoute.js";
+import authRoute from "./routes/authRoute.js";
+import userRoute from "./routes/userRoute.js";
+import jobRoute from "./routes/jobRoute.js";
+import application from "./routes/applicationRoute.js"
 
 //configuring dotenv
 dotenv.config();
@@ -20,20 +21,19 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
 
-//Route
-// app.use("/api", routes);
+//Routes
 
-//SeedAdmin
-// seedAdmin();
+app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
+app.use("/api/jobs", jobRoute);
+app.use("/api/application",applicationRoute)
 
-app.use("/api", Routes);
-
-//app-run
+//database connection
 dbConnection().then(() => {
   app.listen(port, () => {
     console.log(`Server is listening at port: http://localhost:${port}`);

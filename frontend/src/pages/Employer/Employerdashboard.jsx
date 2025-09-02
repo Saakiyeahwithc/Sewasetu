@@ -3,13 +3,22 @@ import {
   Home,
   Plus,
   Users,
-  Bell,
-  Settings,
   Badge,
+  Building2Icon,
+  LogOut,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 
 export function Employerdashboard() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem();
+    sessionStorage.clear();
+    navigate("/login");
+  };
+
   return (
     <section className="min-h-screen">
       <h2 className="text-3xl font-bold text-gray-800 text-center my-12">
@@ -28,7 +37,6 @@ export function Employerdashboard() {
               </div>
               <div>
                 <h2 className="font-bold text-xl">Green Valley Agro</h2>
-                <p className="text-blue-100 text-sm">Chitwan, Nepal</p>
               </div>
             </div>
           </div>
@@ -43,9 +51,7 @@ export function Employerdashboard() {
             {[
               { icon: Plus, label: "Post New Job" },
               { icon: Briefcase, label: "Manage Jobs" },
-              { icon: Users, label: "Candidates" },
-              { icon: Bell, label: "Notifications" },
-              { icon: Settings, label: "Settings" },
+              { icon: Building2Icon, label: "Company Profile" },
             ].map((item) => (
               <div
                 key={item.label}
@@ -56,6 +62,15 @@ export function Employerdashboard() {
               </div>
             ))}
           </nav>
+
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            className="w-full px-4 py-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-blue-700 transition-colors mt-auto"
+          >
+            <LogOut className="w-5 h-5" />
+            <span>Logout</span>
+          </button>
         </aside>
 
         {/* Main Content */}
@@ -63,7 +78,7 @@ export function Employerdashboard() {
           {/* Header */}
           <header className="mb-8">
             <h1 className="text-3xl font-bold text-gray-800 mb-2">
-              Green Valley Agro Dashboard
+              Good Vibes Farmstay
             </h1>
             <p className="text-gray-600">
               Manage your job postings and candidates in one place.

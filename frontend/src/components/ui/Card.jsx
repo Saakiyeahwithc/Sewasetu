@@ -1,24 +1,34 @@
 import React from "react";
 
-export function Card({ className = "", children, ...props }) {
+export function Card({ children, className }) {
   return (
-    <div
-      className={`rounded-2xl bg-white p-6 shadow border border-gray-200 ${className}`}
-      {...props}
+    <h2
+      className={`text-xl font-semibold text-gray-900 leading-tight ${className}`}
+      id="card-title"
     >
       {children}
-    </div>
+    </h2>
+  );
+}
+export function CardTitle({ children, className }) {
+  return (
+    <h2
+      className={`text-xl font-semibold text-gray-900 leading-tight ${className}`}
+      id="card-title"
+    >
+      {children}
+    </h2>
   );
 }
 
-export function CardHeader({ children, className = "" }) {
-  return <div className={`mb-4 font-semibold ${className}`}>{children}</div>;
+export function CardHeader({ children, className }) {
+  return <div className={`mb-4 ${className}`}>{children}</div>;
 }
 
-export function CardContent({ children, className = "" }) {
-  return <div className={`text-sm ${className}`}>{children}</div>;
+export function CardContent({ children, className }) {
+  return <div className={className}>{children}</div>;
 }
 
-export function CardFooter({ children, className = "" }) {
-  return <div className={`mt-4 text-right ${className}`}>{children}</div>;
+export function CardDescription({ children, className }) {
+  return <p className={`text-gray-600 mb-4 ${className}`}>{children}</p>;
 }

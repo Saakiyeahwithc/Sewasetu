@@ -1,6 +1,6 @@
-import User from "../model/user.js";
+import User from "../model/User.js";
 import bcrypt from "bcryptjs";
-
+import fs from "fs";
 export const registerUser = async (req, res) => {
   try {
     const { password, ...otherFields } = req.body;
@@ -26,8 +26,8 @@ export const registerUser = async (req, res) => {
       ...otherFields,
       password: hashedPassword,
     });
-    const savedUser = await user.save();
 
+    const savedUser = await user.save();
     res.status(200).json({
       status: true,
       message: "User registered successfully.",
@@ -121,6 +121,7 @@ export const updateUser = async (req, res) => {
   }
 };
 
+// delete resume file
 export const deleteUser = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
@@ -141,8 +142,100 @@ export const deleteUser = async (req, res) => {
     console.log(error);
     res.status(500).json({
       status: false,
-      message: `Error occured while deleting the datat of user ${req.params.id}`,
+      message: `Error occured while deleting the data of user ${req.params.id}`,
       error: error.message,
     });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { name, avatar, jobTitle, jobDescription, resume } = req.body;
+    const user = await User.findById(req.user._id);
+    if (!user)
+      return res.status(404).json({
+        message: "User not found.",
+      });
+
+    user.name = name || user.name;
+    user.avatar = avatar || user.avatar;
+    user.resume = resume || user.resume;
+
+    //If employer allow updating info
+    if (user.role === "employer") {
+      user.jobTitle = jobTitle || user.jobTitle;
+      user.jobDescription = jobDescription || user.jobDescription;
+    }
+    await user.save;
+
+    res.json({
+      _id: user_id,
+      name: user.name,
+      avatar: user.avatar,
+      role: user.role,
+      jobTitle: user.jobTitle,
+      jobDescription: user.jobDescription,
+      resume: user.resume || "",
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "err.message",
+    });
+  }
+};
+
+//delete resume (Jobseeker only)
+
+export const deleteResume = async (req, res) => {
+  try {
+    const { resumeUrl } = req.body;
+
+    //extract file name form url
+    const fileName = resumeUrl?.split("/")?.pop();
+
+    const user = User.findById(req.user._id);
+    if (!user)
+      return res.status(404).json({
+        message: "User not Found",
+      });
+
+    if (user.role !== "jobseeker")
+      return res
+        .status(403)
+        .json({ message: "Only jobseeker can delete resune" });
+
+    //Construct the full file path
+    const filePath = path.join(__dirname, "../uploads", fileName);
+
+    //check if the file exists and then delete
+    if (fs.existsSync(filePath)) {
+      fs.unlink(filePath); //delete the file
+    }
+
+    //set the users  resume to empty string
+    user.resume = "";
+    await user.save();
+
+    res.json({
+      message: " Resume deleted successfully!",
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "err.message",
+    });
+  }
+};
+
+//get user public profile
+
+export const getPublicProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select("-password");
+
+    if (!user) return res.status(404).json({ message: "User not Found" });
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: "err.message" });
   }
 };
