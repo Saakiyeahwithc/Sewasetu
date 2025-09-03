@@ -11,7 +11,7 @@ export const useAuth = () => {
   return context;
 };
 
-export const AuthProvider = ({ childern }) => {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -31,7 +31,7 @@ export const AuthProvider = ({ childern }) => {
         setIsAuthenticated(true);
       }
     } catch (err) {
-      console.error("Auth check failed", error);
+      console.error("Auth check failed", err);
       logout();
     } finally {
       setLoading(false);
@@ -72,5 +72,5 @@ export const AuthProvider = ({ childern }) => {
     checkAuthStatus,
   };
 
-  return <AuthContext.Provider value={value}>{childern}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

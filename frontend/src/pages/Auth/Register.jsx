@@ -7,16 +7,27 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Users, Briefcase, Loader2, User, Upload } from "lucide-react";
+import {
+  Users,
+  Briefcase,
+  Loader2,
+  User,
+  Upload,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/ui/button.jsx";
 import { validateAvatar } from "../../utils/helper.js";
 import { motion } from "framer-motion";
-
+import { API_PATHS } from "../../utils/apiPaths.js";
+import uploadImage from "../../utils/uploadImage.js";
 import toast from "react-hot-toast";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance.js";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 export default function RegistrationPage() {
+  const { login } = useAuth();
   const [role, setRole] = useState("jobseeker");
   const navigate = useNavigate();
   const hasShownToast = useRef(false); // Add this to prevent double toasts
@@ -126,9 +137,27 @@ export default function RegistrationPage() {
     setFormState((prev) => ({ ...prev, loading: true, errors: {} }));
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/user/register",
-        formData,
+      let avatarUrl = "";
+
+      //Upload url if present
+      if (formData.avatar) {
+        const imageUploadRes = await uploadImage(formData.avatar);
+        avatarUrl = imageUploadRes.imageUrl || "";
+      }
+
+      // Prepare data for API (exclude avatar file, include avatarUrl)
+      const registrationData = {
+        fullName: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role,
+        avatar: avatarUrl,
+        agreeToTerms: formData.agreeToTerms,
+      };
+
+      const response = await axiosInstance.post(
+        API_PATHS.AUTH.REGISTER,
+        registrationData,
         {
           withCredentials: true,
           headers: {
@@ -137,20 +166,59 @@ export default function RegistrationPage() {
         }
       );
 
-      if (response.status === 201) {
-        const { data, message } = response.data;
-        setFormState((prev) => ({ ...prev, success: true }));
-        toast.success(message || "Registration successful!");
+      //handle successful registration
+      console.log("Registration response:", response.data);
 
-        // Small delay before navigation to show success message
+      // Extract token and user data from the response structure
+      const token = response.data.token;
+      const user = response.data.data?.user || response.data.user;
+
+      console.log("Extracted registration data:", { token, user }); // Debug log
+
+      setFormState((prev) => ({
+        ...prev,
+        loading: false,
+        success: true,
+        errors: {},
+      }));
+
+      if (user && token) {
+        // Store user data in localStorage and update auth context
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("token", token);
+        login(user, token);
+
+        // Show success message
+        toast.success(
+          `Welcome ${user.fullName}! Redirecting to your dashboard...`
+        );
+
+        //redirect based on role after a short delay
         setTimeout(() => {
-          navigate("/");
-        }, 1000);
+          const redirectPath =
+            user.role === "employer"
+              ? "/employerdashboard"
+              : "/jobseekerdashboard";
+          console.log(
+            "Redirecting to:",
+            redirectPath,
+            "for user role:",
+            user.role
+          ); // Debug log
+          navigate(redirectPath);
+        }, 2000);
+      } else {
+        console.error(
+          "Missing user data or token in registration response:",
+          response.data
+        );
+        toast.error(
+          "Registration successful but missing user data. Please try logging in."
+        );
+        setTimeout(() => navigate("/login"), 2000);
       }
     } catch (error) {
-      console.error("Registration error:", error);
-
-      // FIXED: Use a ref or flag to prevent double toast
+      // Use a ref or flag to prevent double toast
       let errorMessage = "Registration failed. Please try again.";
 
       if (error.response?.data?.message) {
@@ -186,13 +254,12 @@ export default function RegistrationPage() {
             Account Created!
           </h2>
           <p className="text-gray-600 md-4">
-            Welcome to JobPortal! Your account has bee succesfully created.
+            Welcome to JobPortal! Your account has been succesfully created.
           </p>
-          <div className="animate-spin w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full mx-auto">
-            <p className="text-sm texr-gray-500 mt-2">
-              Redirecting to your dashboard...
-            </p>
-          </div>
+          <Loader2 className="animate-spin w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full mx-auto" />
+          <p className="text-sm texr-gray-500 mt-2">
+            Redirecting to your dashboard...
+          </p>
         </motion.div>
       </div>
     );
@@ -273,7 +340,7 @@ export default function RegistrationPage() {
                   value={formData.fullName}
                   onChange={(e) =>
                     handleInputChange("fullName", e.target.value)
-                  } 
+                  }
                   className={`w-full px-4 py-2 border rounded-md h-11 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
                     formState.errors.fullName ? "border-red-500" : ""
                   }`}
@@ -323,7 +390,7 @@ export default function RegistrationPage() {
                 <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
                   {formState.avatarPreview ? (
                     <img
-                      src="{formState.avatarPrview}"
+                      src={formState.avatarPreview}
                       alt="Avatar preview"
                       className=" w-full h-full object-cover "
                     />
@@ -356,7 +423,7 @@ export default function RegistrationPage() {
 
             {formState.errors.avatar && (
               <p className="text-red-500 text-sm mt-1 flex items-center ">
-                <Alertcircle className="w-4 h-4 mr-1" />
+                <AlertCircle className="w-4 h-4 mr-1" />
                 {formState.errors.avatar}
               </p>
             )}

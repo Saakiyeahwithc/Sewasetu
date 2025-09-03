@@ -20,11 +20,11 @@ import ManageJobs from "./pages/Employer/ManageJobs";
 import EmployerProfilePage from "./pages/Employer/EmployerProfilePage";
 import ApplicationViewer from "./pages/Employer/Applicationviewer";
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-    <>
-    
+    <AuthProvider>
       <Routes>
         {/*Public Routes*/}
         <Route path="/" element={<Home />} />
@@ -59,7 +59,7 @@ function App() {
           },
         }}
       />
-    </>
+    </AuthProvider>
   );
 }
 

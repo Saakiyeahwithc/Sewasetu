@@ -19,10 +19,11 @@ import Tabs, { TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 import Cookies from "js-cookie";
 import { Button } from "../../components/ui/button";
-
+import { useAuth } from "../../context/AuthContext";
+import { API_PATHS } from "../../utils/apiPaths";
 export function Login() {
   const [activeTab, setActiveTab] = useState("jobseeker");
   const [email, setEmail] = useState("");
@@ -30,6 +31,8 @@ export function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
+
+  const { login } = useAuth();
 
   const [formState, setFormState] = useState({
     loading: false,
@@ -49,40 +52,73 @@ export function Login() {
     setFormState({ loading: true, errors: {}, success: false });
 
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/login", {
-        email,
-        password,
+      const res = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+        email: email,
+        password: password,
+        rememberMe: rememberMe,
         role: activeTab, // Explicitly send the role
       });
 
-      const { user, data: token } = res.data;
+      console.log("Full API response:", res.data); // Debug log
 
-      Cookies.set("user", JSON.stringify(user), {
-        expires: rememberMe ? 7 : undefined,
-      });
-      Cookies.set("token", token, { expires: rememberMe ? 7 : undefined });
+      // Extract token and user data based on actual response structure
+      const token =
+        res.data.token || res.data.accessToken || res.data.authToken;
+      const user = res.data.user || res.data;
+      const role = user.role;
 
-      if (user.role === "jobseeker") {
-        navigate("/jobseekerdashboard");
-      } else if (user.role === "employer") {
-        navigate("/employerdashboard");
+      console.log("Extracted data:", { token, role, user }); // Debug log
+
+      if (user && role) {
+        // If no token, we'll proceed anyway since user data exists
+        if (token) {
+          login(user, token);
+          localStorage.setItem("token", token);
+          Cookies.set("token", token, { expires: rememberMe ? 7 : undefined });
+        } else {
+          console.warn("No token received from backend");
+          login(user, null);
+        }
+
+        // Set cookies AND localStorage for consistency
+        Cookies.set("user", JSON.stringify(user), {
+          expires: rememberMe ? 7 : undefined,
+        });
+        localStorage.setItem("user", JSON.stringify(user));
+
+        //Redirect based on role immediately
+        const redirectPath =
+          role === "employer" ? "/employerdashboard" : "/jobseekerdashboard";
+        console.log("Redirecting to:", redirectPath); // Debug log
+        console.log("Navigate function:", navigate); // Debug log
+
+        // Navigate immediately instead of showing success screen
+        try {
+          navigate(redirectPath);
+          console.log("Navigate called successfully"); // Debug log
+        } catch (error) {
+          console.error("Navigate failed:", error); // Debug log
+        }
       }
     } catch (error) {
-      const errors = {};
       const errorMessage =
-        error.response?.data?.message || "An unexpected error occurred.";
+        error.response?.data?.message ||
+        "Login failed. Please check your credentials.";
+      const fieldErrors = error.response?.data?.errors || {};
 
-      // Assuming the backend returns specific field errors or a general message
-      if (errorMessage.toLowerCase().includes("email")) {
-        errors.email = errorMessage;
-      } else if (errorMessage.toLowerCase().includes("password")) {
-        errors.password = errorMessage;
-      } else {
-        errors.general = errorMessage;
-      }
-
-      setFormState({ loading: false, errors, success: false });
-      console.error("Login Error: ", error);
+      setFormState((prev) => ({
+        ...prev,
+        loading: false,
+        errors: {
+          general:
+            !fieldErrors.email && !fieldErrors.password
+              ? errorMessage
+              : undefined,
+          email: fieldErrors.email,
+          password: fieldErrors.password,
+          ...fieldErrors,
+        },
+      }));
     } finally {
       // Ensure loading is set to false even if there's an unhandled error
       setFormState((prevState) => ({ ...prevState, loading: false }));

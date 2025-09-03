@@ -1,21 +1,21 @@
 import { Navigate, Outlet } from "react-router-dom";
-import Cookies from "js-cookie";
 
 const ProtectedRoute = ({ allowedRoles }) => {
-  // Get user info from cookie
-  const userCookie = Cookies.get("user");
+  // Get user info from localStorage (consistent with AuthContext)
+  const userStr = localStorage.getItem("user");
+  const token = localStorage.getItem("token");
   let user = null;
 
-  if (userCookie) {
+  if (userStr && token) {
     try {
-      user = JSON.parse(userCookie);
+      user = JSON.parse(userStr);
     } catch (error) {
-      console.error("Invalid user cookie:", error);
+      console.error("Invalid user data:", error);
     }
   }
 
-  // If user Not registered → redirect to resgistation page
-  if (!user) {
+  // If user Not registered → redirect to registration page
+  if (!user || !token) {
     return <Navigate to="/register" replace />;
   }
 
