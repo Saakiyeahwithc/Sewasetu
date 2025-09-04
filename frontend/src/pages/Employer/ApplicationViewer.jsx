@@ -199,7 +199,7 @@ setApplication(response.data);
 
                     {/* Action */}
                     <div className="flex item-center gap-3 mt-4 md:m-0">
-                      {/* <Statusbadge status={application.status} /> */}
+                      <Statusbadge status={application.status} /> 
                       <button
                         onClick={() =>
                           handleDownloadResume(
@@ -230,10 +230,21 @@ setApplication(response.data);
             )
             )}
         </div>
-)}
+
+      {/* profile model */}
+          {selectedApplicant && (
+      <applicationProfilePreview
+        selectedApplicant={setSelectedApplicant}
+        handleDownloadResume={handleDownloadResume}
+        handleClose={() =>{
+          setSelectedApplicant(null);
+          fetchApplications();
+        }}
+        />
+      )}
         </div>
     </DashboardLayout>
     )
-};
+}
 
 export default ApplicationViewer;
