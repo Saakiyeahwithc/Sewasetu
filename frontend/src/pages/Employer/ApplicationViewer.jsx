@@ -233,7 +233,7 @@ setApplication(response.data);
 
       {/* profile model */}
           {selectedApplicant && (
-      <applicationProfilePreview
+      <ApplicationProfilePreview
         selectedApplicant={setSelectedApplicant}
         handleDownloadResume={handleDownloadResume}
         handleClose={() =>{
