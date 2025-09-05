@@ -10,37 +10,11 @@ import {
 } from "lucide-react";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
+import { getInitials } from "../../utils/helper";
 import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
-import { getInitials } from "../../utils/helper";
-
-import DashboardLayout from "../../components/Layout/DashboardLayout";
-
-// Simple StatusBadge component
-const StatusBadge = ({ status }) => {
-  const getStatusColor = (status) => {
-    switch (status?.toLowerCase()) {
-      case "accepted":
-        return "bg-green-100 text-green-800";
-      case "rejected":
-        return "bg-red-100 text-red-800";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
-  return (
-    <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
-        status
-      )}`}
-    >
-      {status || "Pending"}
-    </span>
-  );
-};
+import DashboardLayout from "../../components/layouts/DashboardLayout";
+import { StatusBadge } from "../../components/ui/StatusBadge";
 
 const ApplicationViewer = () => {
   const location = useLocation();
@@ -50,7 +24,7 @@ const ApplicationViewer = () => {
 
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedApplication, setSelectedApplication] = useState(null);
+  const [selectedApplicant, setSelectedApplicant] = useState(null);
 
   const fetchApplications = async () => {
     try {
@@ -238,7 +212,7 @@ const ApplicationViewer = () => {
 
                               <button
                                 onClick={() =>
-                                  setSelectedApplication(application)
+                                  setSelectedApplicant(application)
                                 }
                                 className="inline-flex items-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200 transition-colors"
                               >
@@ -257,24 +231,18 @@ const ApplicationViewer = () => {
           )}
         </div>
 
-        {/* profile modal */}
-        {selectedApplication && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg p-6 max-w-md w-full">
-              <h3 className="text-lg font-semibold mb-4">
-                Application Details
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Profile preview component would go here.
-              </p>
-              <button
-                onClick={() => setSelectedApplication(null)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              >
-                Close
-              </button>
-            </div>
-          </div>
+        {/* profile model */}
+
+        {selectedApplicant && (
+          <ApplicantProfilePreview
+            selectedApplicant={selectedApplicant}
+            setSelectedApplicant={setSelectedApplicant}
+            handleDownloadResume={handleDownloadResume}
+            handleClose={() => {
+              setSelectedApplicant(null);
+              fetchApplications();
+            }}
+          />
         )}
       </div>
     </DashboardLayout>

@@ -1,5 +1,5 @@
-import { Save, X } from "lucide-react";
-import DashboardLayout from '../../components/layout/DashboardLayout'
+import { Save, X } from "ucide-react";
+import DashboardLayout from '../../components/layouts/DashboardLayout'
 
 const EditProfileDetails = ({
   formData,
