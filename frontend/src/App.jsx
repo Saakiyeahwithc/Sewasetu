@@ -14,11 +14,14 @@ import About from "./pages/LandingPage/About";
 import Register from "./pages/Auth/Register";
 import SkillDevelopmentPage from "./pages/LandingPage/Skilldevelopment";
 import FindJobs from "./pages/JobSeeker/Findjobs";
-import PostJob from "./pages/Employer/Postjobs";
+import JobPostingForm from "./pages/Employer/JobPostinForm";
 import ProtectedRoute from "./routes/Protectedroute";
 import ManageJobs from "./pages/Employer/ManageJobs";
 import EmployerProfilePage from "./pages/Employer/EmployerProfilePage";
 import ApplicationViewer from "./pages/Employer/Applicationviewer";
+import SavedJobs from "./pages/JobSeeker/SavedJobs";
+import JobDetails from "./pages/JobSeeker/JobDetails";
+import UserProfile from "./pages/JobSeeker/UserProfile";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -35,7 +38,7 @@ function App() {
         {/* {protected routes} */}
         <Route element={<ProtectedRoute allowedRoles="employer" />}>
           <Route path="/employerdashboard" element={<Employerdashboard />} />
-          <Route path="/post-job" element={<PostJob />} />
+          <Route path="/post-job" element={<JobPostingForm />} />
           <Route path="/manage-jobs" element={<ManageJobs />} />
           <Route path="/applicants" element={<ApplicationViewer />} />
           <Route path="/company-profile" element={<EmployerProfilePage />} />
@@ -43,7 +46,10 @@ function App() {
 
         <Route element={<ProtectedRoute allowedRoles="jobseeker" />}>
           <Route path="/jobseekerdashboard" element={<JobseekerDashboard />} />
-          <Route path="/FindJobs" element={<FindJobs />} />
+          <Route path="/findJobs" element={<FindJobs />} />
+          <Route path="/job/:jobId" element={<JobDetails />} />
+          <Route path="/saved-jobs" element={<SavedJobs />} />
+          <Route path="/profile" element={<UserProfile />} />
           <Route path="/SkillDevelopment" element={<SkillDevelopmentPage />} />
         </Route>
 
