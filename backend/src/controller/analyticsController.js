@@ -1,4 +1,4 @@
-import Job from "../model/job.js";
+import Job from "../model/Job.js";
 import Application from "../model/Application.js";
 
 export const getTrend = (current, previous) => {
@@ -12,7 +12,6 @@ export const getEmployerAnalytics = async (req, res) => {
     }
 
     const companyId = req.user._id;
-
     const now = new Date();
     const last7Days = new Date(now);
     last7Days.setDate(now.getDate() - 7);
@@ -21,7 +20,7 @@ export const getEmployerAnalytics = async (req, res) => {
 
     //Counts
     const totalActiveJobs = await Job.countDocuments({
-      company: compantId,
+      company: companyId,
       isClosed: false,
     });
     const jobs = (await Job.find({ company: companyId }).select("_id")).lean();
@@ -56,8 +55,8 @@ export const getEmployerAnalytics = async (req, res) => {
       createdAt: { $gte: last7Days, $lte: now },
     });
 
-    const applicationPrev7 = await Job.countDocuments({
-      company: companyId,
+    const applicationPrev7 = await Application.countDocuments({
+      job: { $in: jobIds },
       createdAt: { $gte: prev7Days, $lt: last7Days },
     });
 
@@ -65,7 +64,7 @@ export const getEmployerAnalytics = async (req, res) => {
 
     //Hired application trend
     const hiredLast7 = await Application.countDocuments({
-      jpb: { $in: jobIds },
+      job: { $in: jobIds },
       status: "Accepted",
       createdAt: { $gte: prev7Days, $lte: last7Days },
     });
@@ -111,6 +110,6 @@ export const getEmployerAnalytics = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ message: "Faild to fetch analytics", error: err.message });
+      .json({ message: "Failed to fetch analytics", error: err.message });
   }
 };

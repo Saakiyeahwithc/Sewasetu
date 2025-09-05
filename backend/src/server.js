@@ -18,18 +18,29 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173"],
     credentials: true,
   })
 );
 
 //Routes
+app.get("/health", (req, res) => {
+  res.json({
+    status: "Server is running",
+    timestamp: new Date().toISOString(),
+  });
+});
 
 app.use("/api", Router);
 
 //database connection
-dbConnection().then(() => {
-  app.listen(port, () => {
-    console.log(`Server is listening at port: http://localhost:${port}`);
+dbConnection()
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Server is listening at port: http://localhost:${port}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Database connection failed:", error);
+    process.exit(1);
   });
-});

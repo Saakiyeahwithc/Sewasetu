@@ -37,7 +37,7 @@ export const registerUser = async (req, res) => {
     console.log(error);
     res.status(500).json({
       status: false,
-      messaage: "Error occured during the process.",
+      message: "Error occurred during the process.",
       error: error.message,
     });
   }

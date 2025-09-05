@@ -18,6 +18,11 @@ const applicationSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Application = mongoose.model("Application", applicationSchema);
+let Application;
+try {
+  Application = mongoose.model("Application");
+} catch (error) {
+  Application = mongoose.model("Application", applicationSchema);
+}
 
 export default Application;
