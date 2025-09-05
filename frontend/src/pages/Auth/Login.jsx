@@ -59,15 +59,14 @@ export function Login() {
         role: activeTab, // Explicitly send the role
       });
 
-      console.log("Full API response:", res.data); // Debug log
-
       // Extract token and user data based on actual response structure
       const token =
-        res.data.token || res.data.accessToken || res.data.authToken;
+        res.data.token ||
+        res.data.accessToken ||
+        res.data.authToken ||
+        res.data.data;
       const user = res.data.user || res.data;
       const role = user.role;
-
-      console.log("Extracted data:", { token, role, user }); // Debug log
 
       if (user && role) {
         // If no token, we'll proceed anyway since user data exists
@@ -89,15 +88,12 @@ export function Login() {
         //Redirect based on role immediately
         const redirectPath =
           role === "employer" ? "/employerdashboard" : "/jobseekerdashboard";
-        console.log("Redirecting to:", redirectPath); // Debug log
-        console.log("Navigate function:", navigate); // Debug log
 
         // Navigate immediately instead of showing success screen
         try {
           navigate(redirectPath);
-          console.log("Navigate called successfully"); // Debug log
         } catch (error) {
-          console.error("Navigate failed:", error); // Debug log
+          console.error("Navigate failed:", error);
         }
       }
     } catch (error) {

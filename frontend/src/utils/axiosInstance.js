@@ -17,7 +17,6 @@ axiosInstance.interceptors.request.use(
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
-
     return config;
   },
   (error) => {
@@ -39,7 +38,7 @@ axiosInstance.interceptors.response.use(
       } else if (error.response.status === 500) {
         console.error("Server error. Please try again later.");
       }
-    } else if (error.code === "ECONNABORATED") {
+    } else if (error.code === "ECONNABORTED") {
       console.error("Request timeout. Please try again.");
     }
     return Promise.reject(error);

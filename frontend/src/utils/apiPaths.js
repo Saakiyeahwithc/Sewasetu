@@ -14,22 +14,21 @@ export const API_PATHS = {
 
   JOBS: {
     GET_ALL_JOBS: "/api/job",
-    GET_JOB_BY_ID: (id) => `/api/job/get/`,
-    POST_JOB: "api/job/create",
-    GET_JOBS_EMPLOYER: "api/job/get-job-employer",
     GET_JOB_BY_ID: (id) => `/api/job/get/${id}`,
+    POST_JOB: "/api/job/create",
+    GET_JOBS_EMPLOYER: "/api/job/get-job-employer",
     UPDATE_JOB: (id) => `/api/job/toggle-close/${id}`,
     TOGGLE_CLOSE: (id) => `/api/job/toggle-close/${id}`,
     DELETE_JOB: (id) => `/api/job/delete/${id}`,
 
-    SAVE_JOB: (id) => `/api/savedJobs/${id}`,
-    UNSAVE_JOB: (id) => `/api/savedjobs/${id}`,
-    GET_SAVED_JOBS: "api/savedJobs/my",
+    SAVE_JOB: (id) => `/api/savedJob/${id}`,
+    UNSAVE_JOB: (id) => `/api/savedJob/${id}`,
+    GET_SAVED_JOBS: "/api/savedJob/my",
   },
   APPLICATIONS: {
-    APPLY_TO_JOB: (id) => `api/applicaiton/${id}`,
+    APPLY_TO_JOB: (id) => `/api/application/${id}`,
     GET_ALL_APPLICANTS: (id) => `/api/application/job/${id}`,
-    UPDATE_STATUS: (id) => `api/application/${id}/status`,
+    UPDATE_STATUS: (id) => `/api/application/${id}/status`,
   },
 
   IMAGE: {

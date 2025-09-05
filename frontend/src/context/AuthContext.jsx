@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { use } from "react";
 
 const AuthContext = createContext();
 
@@ -39,7 +38,13 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = (userData, token) => {
-    localStorage.setItem("token", token);
+    // Only store token if it's not null/undefined
+    if (token) {
+      localStorage.setItem("token", token);
+    } else {
+      localStorage.removeItem("token");
+    }
+
     localStorage.setItem("user", JSON.stringify(userData));
 
     setUser(userData);

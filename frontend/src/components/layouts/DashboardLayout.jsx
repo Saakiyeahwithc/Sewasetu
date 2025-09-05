@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Children } from "react";
 import { Briefcase, Building2, LogOut, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { NAVIGATION_MENU } from "../../utils/data.js";
+import ProfileDropdown from "./ProfileDropdown.jsx";
 
 const NavigationItem = ({ item, isActive, onClick, isCollapsed }) => {
   const Icon = item.icon;
@@ -26,7 +27,7 @@ const NavigationItem = ({ item, isActive, onClick, isCollapsed }) => {
   );
 };
 
-const DashboardLayout = ({ activeMenu }) => {
+const DashboardLayout = ({ activeMenu, children }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -132,6 +133,65 @@ const DashboardLayout = ({ activeMenu }) => {
             {!sidebarCollapsed && <span className="ml-3">Logout</span>}
           </button>
         </div>
+      </div>
+
+      {/* Mobile Overlay */}
+      {isMobile && sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-25 z-40 backdrop-blur-sm"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Main Content*/}
+      <div
+        className={`flex-1 flex flex-col transition-all duration-300 ${
+          isMobile ? "ml-0" : sidebarCollapsed ? "ml-16" : "ml-64"
+        }`}
+      >
+        {/* Top Navbar */}
+
+        <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 h-16 flex items-center justify-between px-6 sticky top-0 z-30">
+          <div className="flex items-center space-x-4">
+            {isMobile && (
+              <button
+                onClick={toggleSidebar}
+                className="p-2 rounded-xl hover:bg-gray-100 transition-colors duration-200"
+              >
+                {sidebarOpen ? (
+                  <X className="h-5 w-5 test-gray-600" />
+                ) : (
+                  <Menu className="h-5 w-5 text-gray-600" />
+                )}
+              </button>
+            )}
+
+            <div>
+              <h1 className="text-base font-semibold text-gray-900">
+                Welcome back!
+              </h1>
+              <p className="">Here's what's happening with your job today.</p>
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-3">
+            {/* Profile dropdown */}
+            <ProfileDropdown
+              isOpen={profileDropdownOpen}
+              onToggle={(e) => {
+                e.stopPropagation();
+                setProfileDropdownOpen(!setProfileDropdownOpen);
+              }}
+              avatar={user?.avatar || ""}
+              companyName={user?.name || ""}
+              email={user?.email || ""}
+              onLogout={logout}
+            />
+          </div>
+        </header>
+
+        {/* Main content area */}
+        <main className="flex-1 overflow-auto p-6">{children}</main>
       </div>
     </div>
   );
