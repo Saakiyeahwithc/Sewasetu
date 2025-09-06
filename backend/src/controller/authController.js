@@ -32,7 +32,7 @@ const signAndSendToken = (user, statusCode, res) => {
     .cookie("jwt", token, cookieOptions) // sending jwt token via cookie
     .json({
       status: "success",
-      message: `Welcome ${user.fullName}!`,
+      message: `Welcome ${user.name || user.email}!`,
       token,
       data: {
         user,
@@ -94,7 +94,19 @@ export const login = async (req, res) => {
 export const register = async (req, res) => {
   try {
     console.log("Registration request received:", req.body); // Debug log
-    const { fullName, email, password, role, avatar } = req.body;
+    const { name, email, password, role, avatar } = req.body;
+
+    // Validate required fields
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        message: "Name, email, and password are required",
+        missing: {
+          name: !name,
+          email: !email,
+          password: !password,
+        },
+      });
+    }
 
     const userExists = await User.findOne({ email });
 
@@ -102,9 +114,16 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
+    console.log("Creating user with data:", {
+      name,
+      email,
+      role: role || "jobseeker",
+      avatar: avatar || "",
+    });
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
-      fullName: fullName,
+      name: name,
       email: email,
       password: hashedPassword,
       avatar: avatar || "",
@@ -113,6 +132,7 @@ export const register = async (req, res) => {
 
     console.log("User created successfully:", {
       id: user._id,
+      name: user.name,
       email: user.email,
       role: user.role,
     }); // Debug log
@@ -121,7 +141,35 @@ export const register = async (req, res) => {
     signAndSendToken(user, 201, res);
   } catch (err) {
     console.error("Registration error:", err); // Debug log
-    res.status(500).json({ message: err.message });
+    console.error("Error details:", {
+      name: err.name,
+      message: err.message,
+      stack: err.stack,
+    });
+
+    // Handle specific MongoDB errors
+    if (err.code === 11000) {
+      return res.status(400).json({
+        message: "Email already exists",
+        error: "Duplicate email",
+      });
+    }
+
+    // Handle validation errors
+    if (err.name === "ValidationError") {
+      const validationErrors = Object.values(err.errors).map(
+        (error) => error.message
+      );
+      return res.status(400).json({
+        message: "Validation failed",
+        errors: validationErrors,
+      });
+    }
+
+    res.status(500).json({
+      message: "Registration failed",
+      error: err.message,
+    });
   }
 };
 

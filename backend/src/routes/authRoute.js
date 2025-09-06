@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/login", login);
 router.post("/register", register);
 router.get("/me", authenticateToken, getMe);
+router.get("/profile", authenticateToken, getMe);
 
 router.post("/upload-image", upload.single("image"), (req, res) => {
   if (!req.file) {
@@ -19,4 +20,3 @@ router.post("/upload-image", upload.single("image"), (req, res) => {
 });
 
 export default router;
- 

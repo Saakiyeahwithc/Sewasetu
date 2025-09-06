@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Building2, Mail, Edit } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import axiosInstance from "../../utils/axiosInstance";
@@ -12,19 +12,51 @@ import DashboardLayout from "../../components/layouts/DashboardLayout";
 const EmployerProfilePage = () => {
   const { user, updateUser } = useAuth();
 
+  // Helper function to check if URL is valid
+  const isValidImageUrl = (url) => {
+    if (!url || typeof url !== "string" || url.trim() === "") return false;
+    try {
+      const validUrl = new URL(url);
+      return validUrl.protocol === "http:" || validUrl.protocol === "https:";
+    } catch {
+      return false;
+    }
+  };
+
   const [profileData, setProfileData] = useState({
-    name: user?.name || "",
-    email: user?.email || "",
-    avatar: user?.avatar || "",
-    companyName: user?.companyName || "",
-    companyDescription: user?.companyDescription || "",
-    companyLogo: user?.companyLogo || "",
+    name: "",
+    email: "",
+    avatar: "",
+    companyName: "",
+    companyDescription: "",
+    companyLogo: "",
   });
+
+  // Update profile data when user changes
+  useEffect(() => {
+    if (user) {
+      setProfileData({
+        name: user.name || "",
+        email: user.email || "",
+        avatar: user.avatar || "",
+        companyName: user.companyName || "",
+        companyDescription: user.companyDescription || "",
+        companyLogo: user.companyLogo || "",
+      });
+      setLoading(false);
+    }
+  }, [user]);
 
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({ ...profileData });
   const [uploading, setUploading] = useState({ avatar: false, logo: false });
   const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Update formData when profileData changes
+  useEffect(() => {
+    setFormData({ ...profileData });
+  }, [profileData]);
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({
@@ -43,7 +75,6 @@ const EmployerProfilePage = () => {
       const field = type === "avatar" ? "avatar" : "companyLogo";
       handleInputChange(field, avatarUrl);
     } catch (error) {
-      console.error("Image upload failed:", error);
       toast.error("Image upload failed");
     } finally {
       setUploading((prev) => ({ ...prev, [type]: false }));
@@ -82,7 +113,6 @@ const EmployerProfilePage = () => {
         setEditMode(false);
       }
     } catch (error) {
-      console.error("Update failed:", error);
       toast.error("Failed to update profile");
     } finally {
       setSaving(false);
@@ -93,6 +123,19 @@ const EmployerProfilePage = () => {
     setFormData({ ...profileData });
     setEditMode(false);
   };
+
+  if (loading) {
+    return (
+      <DashboardLayout activeMenu="company-profile">
+        <div className="min-h-screen bg-gray-50 py-8 px-4 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading profile...</p>
+          </div>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   if (editMode) {
     return (
@@ -136,11 +179,37 @@ const EmployerProfilePage = () => {
                   </h2>
                   {/* Avatar and Name */}
                   <div className="flex items-center space-x-4">
-                    <img
-                      src={profileData.avatar}
-                      alt="Avatar"
-                      className="w-20 h-20 rounded-full object-cover border-4 border-blue-50"
-                    />
+                    <div className="relative w-20 h-20">
+                      {isValidImageUrl(profileData.avatar) ? (
+                        <img
+                          src={profileData.avatar}
+                          alt="Avatar"
+                          className="w-20 h-20 rounded-full object-cover border-4 border-blue-50"
+                          onError={(e) => {
+                            e.target.style.display = "none";
+                            const fallback =
+                              e.target.parentElement.querySelector(
+                                ".avatar-fallback"
+                              );
+                            if (fallback) fallback.style.display = "flex";
+                          }}
+                        />
+                      ) : null}
+                      <div
+                        className="avatar-fallback w-20 h-20 rounded-full bg-blue-100 border-4 border-blue-50 flex items-center justify-center absolute top-0 left-0"
+                        style={{
+                          display: isValidImageUrl(profileData.avatar)
+                            ? "none"
+                            : "flex",
+                        }}
+                      >
+                        <span className="text-blue-600 font-semibold text-lg">
+                          {profileData.name
+                            ? profileData.name.charAt(0).toUpperCase()
+                            : "U"}
+                        </span>
+                      </div>
+                    </div>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-800">
                         {profileData.name}
@@ -161,11 +230,33 @@ const EmployerProfilePage = () => {
 
                   {/* Company Logo and Name */}
                   <div className="flex items-center space-x-4">
-                    <img
-                      src={profileData.companyLogo}
-                      alt="Company Logo"
-                      className="w-20 h-20 rounded-lg object-cover border-4 border-blue-50"
-                    />
+                    <div className="relative w-20 h-20">
+                      {isValidImageUrl(profileData.companyLogo) ? (
+                        <img
+                          src={profileData.companyLogo}
+                          alt="Company Logo"
+                          className="w-20 h-20 rounded-lg object-cover border-4 border-blue-50"
+                          onError={(e) => {
+                            e.target.style.display = "none";
+                            const fallback =
+                              e.target.parentElement.querySelector(
+                                ".logo-fallback"
+                              );
+                            if (fallback) fallback.style.display = "flex";
+                          }}
+                        />
+                      ) : null}
+                      <div
+                        className="logo-fallback w-20 h-20 rounded-lg bg-gray-100 border-4 border-blue-50 flex items-center justify-center absolute top-0 left-0"
+                        style={{
+                          display: isValidImageUrl(profileData.companyLogo)
+                            ? "none"
+                            : "flex",
+                        }}
+                      >
+                        <Building2 className="w-8 h-8 text-gray-400" />
+                      </div>
+                    </div>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-800">
                         {profileData.companyName}

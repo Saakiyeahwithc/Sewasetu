@@ -32,7 +32,7 @@ export default function RegistrationPage() {
   const navigate = useNavigate();
   const hasShownToast = useRef(false); // Add this to prevent double toasts
   const [formData, setFormData] = useState({
-    fullName: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -93,8 +93,8 @@ export default function RegistrationPage() {
   const validateForm = () => {
     const errors = {};
 
-    if (!formData.fullName.trim()) {
-      errors.fullName = "Full name is required";
+    if (!formData.name.trim()) {
+      errors.name = "Full name is required";
     }
 
     if (!formData.email.trim()) {
@@ -147,7 +147,7 @@ export default function RegistrationPage() {
 
       // Prepare data for API (exclude avatar file, include avatarUrl)
       const registrationData = {
-        fullName: formData.fullName,
+        name: formData.name,
         email: formData.email,
         password: formData.password,
         role: formData.role,
@@ -189,9 +189,7 @@ export default function RegistrationPage() {
         login(user, token);
 
         // Show success message
-        toast.success(
-          `Welcome ${user.fullName}! Redirecting to your dashboard...`
-        );
+        toast.success(`Welcome ${user.name}! Redirecting to your dashboard...`);
 
         //redirect based on role after a short delay
         setTimeout(() => {
@@ -328,27 +326,25 @@ export default function RegistrationPage() {
               {/*Full Name*/}
               <div className="space-y-2">
                 <label
-                  htmlFor="fullName"
+                  htmlFor="name"
                   className="text-sm font-medium text-gray-700"
                 >
                   Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
-                  id="fullName"
+                  id="name"
                   type="text"
                   placeholder="Enter your full name"
-                  value={formData.fullName}
-                  onChange={(e) =>
-                    handleInputChange("fullName", e.target.value)
-                  }
+                  value={formData.name}
+                  onChange={(e) => handleInputChange("name", e.target.value)}
                   className={`w-full px-4 py-2 border rounded-md h-11 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
-                    formState.errors.fullName ? "border-red-500" : ""
+                    formState.errors.name ? "border-red-500" : ""
                   }`}
                   required
                 />
-                {formState.errors.fullName && (
+                {formState.errors.name && (
                   <p className="text-sm text-red-600">
-                    {formState.errors.fullName}
+                    {formState.errors.name}
                   </p>
                 )}
               </div>

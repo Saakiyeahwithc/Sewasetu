@@ -180,7 +180,7 @@ const DashboardLayout = ({ activeMenu, children }) => {
               isOpen={profileDropdownOpen}
               onToggle={(e) => {
                 e.stopPropagation();
-                setProfileDropdownOpen(!setProfileDropdownOpen);
+                setProfileDropdownOpen(!profileDropdownOpen);
               }}
               avatar={user?.avatar || ""}
               companyName={user?.name || ""}

@@ -5,6 +5,7 @@ import {
   CheckCircle2,
   LogOut,
   Building2,
+  Plus,
 } from "lucide-react";
 
 import DashboardLayout from "../../components/layouts/DashboardLayout";
@@ -14,7 +15,7 @@ import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import JobDashboaardCard from "../../components/Cards/JobDashboaardCard.jsx";
+import JobDashboardCard from "../../components/Cards/JobDashboardCard.jsx";
 import ApplicantDashboardCard from "../../components/layouts/ApplicantDashboardCard.jsx";
 
 const Card = ({ title, subtitle, className, headerAction, children }) => {
@@ -175,18 +176,19 @@ export function Employerdashboard() {
                 {dashboardData?.data?.recentJobs
                   ?.slice(0, 3)
                   ?.map((job, index) => (
-                    <JobDashboaardCard key={index} job={job} />
+                    <JobDashboardCard key={index} job={job} />
                   ))}
               </div>
             </Card>
-
+          </div>
+          <div className="mt-8">
             <Card
               title="Recent Applications"
               subtitle="Latest candidate application"
               headerAction={
                 <button
                   className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-                  onClick={() => navigate("/mange-jobs")}
+                  onClick={() => navigate("/manage-jobs")}
                 >
                   View All
                 </button>
@@ -198,7 +200,7 @@ export function Employerdashboard() {
                   ?.map((data, index) => (
                     <ApplicantDashboardCard
                       key={index}
-                      apllicant={data?.applicant || ""}
+                      applicant={data?.applicant || ""}
                       position={data?.job?.title || ""}
                       time={moment(data?.updateAt).fromNow()}
                     />
@@ -217,7 +219,7 @@ export function Employerdashboard() {
                   title: "Post New Job",
                   icon: Plus,
                   color: "bg-blue-50 text-blue-700",
-                  path: "/postJob",
+                  path: "/post-Job",
                 },
                 {
                   title: "Review Applicatinos",

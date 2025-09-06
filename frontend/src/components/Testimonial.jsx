@@ -129,7 +129,7 @@ export function Testimonial({ autoplay = true }) {
             <motion.p className="mt-8 text-lg text-black dark:text-black">
               {testimonials[active].quote.split(" ").map((word, index) => (
                 <motion.span
-                  key={index}
+                  key={`${active}-${word}-${index}`}
                   initial={{
                     filter: "blur(10px)",
                     opacity: 0,

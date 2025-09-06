@@ -7,11 +7,14 @@ export const getTrend = (current, previous) => {
 };
 export const getEmployerAnalytics = async (req, res) => {
   try {
+    console.log("Analytics API called - User:", req.user);
+
     if (req.user.role !== "employer") {
       return res.status(403).json({ message: "Access denied" });
     }
 
     const companyId = req.user._id;
+    console.log("Company ID:", companyId);
     const now = new Date();
     const last7Days = new Date(now);
     last7Days.setDate(now.getDate() - 7);
@@ -19,16 +22,42 @@ export const getEmployerAnalytics = async (req, res) => {
     prev7Days.setDate(now.getDate() - 14);
 
     //Counts
+    console.log("Fetching active jobs count...");
     const totalActiveJobs = await Job.countDocuments({
       company: companyId,
       isClosed: false,
     });
-    const jobs = (await Job.find({ company: companyId }).select("_id")).lean();
+    console.log("Total active jobs:", totalActiveJobs);
+
+    console.log("Fetching jobs for company...");
+    const jobs = await Job.find({ company: companyId }).select("_id").lean();
     const jobIds = jobs.map((job) => job._id);
+    console.log("Job IDs found:", jobIds.length);
+
+    // If no jobs exist, return default values
+    if (jobIds.length === 0) {
+      return res.json({
+        counts: {
+          totalActiveJobs: 0,
+          totalApplications: 0,
+          totalHired: 0,
+          trends: {
+            activeJobs: 0,
+            totalApplications: 0,
+            totalHired: 0,
+          },
+        },
+        data: {
+          recentJobs: [],
+          recentApplications: [],
+        },
+      });
+    }
 
     const totalApplications = await Application.countDocuments({
       job: { $in: jobIds },
     });
+
     const totalHired = await Application.countDocuments({
       job: { $in: jobIds },
       status: "Accepted",
@@ -66,7 +95,7 @@ export const getEmployerAnalytics = async (req, res) => {
     const hiredLast7 = await Application.countDocuments({
       job: { $in: jobIds },
       status: "Accepted",
-      createdAt: { $gte: prev7Days, $lte: last7Days },
+      createdAt: { $gte: last7Days, $lte: now },
     });
 
     const hiredPrev7 = await Application.countDocuments({
@@ -108,6 +137,12 @@ export const getEmployerAnalytics = async (req, res) => {
       },
     });
   } catch (err) {
+    console.error("Analytics error details:", {
+      message: err.message,
+      stack: err.stack,
+      name: err.name,
+      user: req.user ? { id: req.user._id, role: req.user.role } : "No user",
+    });
     res
       .status(500)
       .json({ message: "Failed to fetch analytics", error: err.message });

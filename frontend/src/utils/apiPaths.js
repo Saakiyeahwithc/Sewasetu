@@ -16,7 +16,7 @@ export const API_PATHS = {
     GET_ALL_JOBS: "/api/job",
     GET_JOB_BY_ID: (id) => `/api/job/get/${id}`,
     POST_JOB: "/api/job/create",
-    GET_JOBS_EMPLOYER: "/api/job/get-job-employer",
+    GET_JOBS_EMPLOYER: "/api/job/get-jobs-employer",
     UPDATE_JOB: (id) => `/api/job/toggle-close/${id}`,
     TOGGLE_CLOSE: (id) => `/api/job/toggle-close/${id}`,
     DELETE_JOB: (id) => `/api/job/delete/${id}`,

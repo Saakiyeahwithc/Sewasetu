@@ -192,7 +192,7 @@ export default function JobListing() {
                 <div className="flex flex-wrap gap-2">
                   {job.skills.map((skill, index) => (
                     <span
-                      key={index}
+                      key={`${job.id}-${skill}-${index}`}
                       className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium"
                     >
                       {skill}

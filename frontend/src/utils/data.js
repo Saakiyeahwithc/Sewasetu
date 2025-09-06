@@ -18,7 +18,7 @@ export const jobSeekerFeatures = [
     icon: Search,
     title: "Smart Job Matching",
     description:
-      "AI-powered algorithm matches you with relevant opportunities based on your skills and preferences."
+      "AI-powered algorithm matches you with relevant opportunities based on your skills and preferences.",
   },
   {
     icon: FileText,
@@ -43,27 +43,27 @@ export const jobSeekerFeatures = [
 export const employerFeatures = [
   {
     icon: Users,
-    filter:"Talent Pool Access",
+    filter: "Talent Pool Access",
     description:
-      "Access our vast database of pre-screened candidates and find the perfect fit for your team."
+      "Access our vast database of pre-screened candidates and find the perfect fit for your team.",
   },
   {
     icon: BarChart3,
     title: "Analytics Dashboard",
     decription:
-      "Track your hiring performance with detailed analytics and insights on candidate engagement."
+      "Track your hiring performance with detailed analytics and insights on candidate engagement.",
   },
   {
     icon: Shield,
     title: "Verified Candidates",
-      description:
-        "All candidates undergo background verification to ensure you're hiring trustworthy professionals."
+    description:
+      "All candidates undergo background verification to ensure you're hiring trustworthy professionals.",
   },
   {
     icon: Clock,
     title: "Quick Hiring",
-      decription:
-        "StreamLined hiring process reduces time-to-hire by 60% with automated screeening tools."
+    decription:
+      "StreamLined hiring process reduces time-to-hire by 60% with automated screeening tools.",
   },
 ];
 
@@ -76,34 +76,34 @@ export const NAVIGATION_MENU = [
 ];
 
 // Categories and job types
-export const CATEGORIES= [
-  { value: "Engineering", Label: "Engineering" },
-  { value: "Design", Label: "Design" },
-  { value: "Marketing", Label: "Marketing" },
-  { value: "Sales", Label: "Sales" },
-  { value: "IT and Software", Label: "IT and Software" },
-  { value: "Customer-Service", Label: "Customer-Service" },
-  { value: "Product", Label: "Product" },
-  { value: "Operations", Label: "Operations" },
-  { value: "Finance", Label: "Finance" },
-  { value: "HR", Label: "Human Resources" },
-  { value: "Other", Label: "Other" },
-  ];
+export const CATEGORIES = [
+  { value: "Engineering", label: "Engineering" },
+  { value: "Design", label: "Design" },
+  { value: "Marketing", label: "Marketing" },
+  { value: "Sales", label: "Sales" },
+  { value: "IT and Software", label: "IT and Software" },
+  { value: "Customer-Service", label: "Customer-Service" },
+  { value: "Product", label: "Product" },
+  { value: "Operations", label: "Operations" },
+  { value: "Finance", label: "Finance" },
+  { value: "HR", label: "Human Resources" },
+  { value: "Other", label: "Other" },
+];
 
 export const JOB_TYPES = [
-  { value: "Remote", Label: "Remote" },
-  { value: "Full-Time", Label: "Full-Time" },
-  { value: "Part-Time", Label: "Part-Time" },
-  { value: "Contract", Label: "Contract" },
-  {value: "Internship", Label: "Internship" },
-  ];
+  { value: "Remote", label: "Remote" },
+  { value: "Full-Time", label: "Full-Time" },
+  { value: "Part-Time", label: "Part-Time" },
+  { value: "Contract", label: "Contract" },
+  { value: "Internship", label: "Internship" },
+];
 
 export const SALARY_RANGES = [
   "Less than $1000",
   "$1000 - $15,000",
   "More than $15,000",
-  ];
-    
+];
+
 export const JOBSEEKER_NAVIGATION_MENU = [
   { id: "jobseekerdashboard", name: "Dashboard", icon: LayoutDashboard },
   { id: "FindJobs", name: "Find Jobs", icon: Search },

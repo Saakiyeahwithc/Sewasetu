@@ -85,8 +85,18 @@ const ManageJobs = () => {
         API_PATHS.JOBS.TOGGLE_CLOSE(jobId)
       );
       getPostedJobs(true);
+      toast.success("Job status updated successfully");
     } catch (error) {
       console.error("Error toggling job status:", error);
+      if (error.response) {
+        toast.error(
+          `Error: ${error.response.data?.message || error.response.statusText}`
+        );
+      } else if (error.request) {
+        toast.error("Network error. Please check your connection.");
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 

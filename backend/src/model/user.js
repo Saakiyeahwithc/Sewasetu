@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    fullName: {
+    name: {
       type: String,
       required: true,
     },
@@ -13,7 +13,6 @@ const userSchema = new mongoose.Schema(
         /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/,
         "Please fill a valid email address",
       ],
-      required: true,
       lowercase: true,
       unique: true,
     },
@@ -25,14 +24,30 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ["jobseeker", "admin", "employer"],
+      required: true,
     },
     avatar: {
       type: String,
       default: "",
     },
-    resume: String,
+    resume: {
+      type: String,
+      default: "",
+    },
+    jobTitle: {
+      type: String,
+      default: "",
+    },
+    jobDescription: {
+      type: String,
+      default: "",
+    },
+    companyName: {
+      type: String,
+      default: "",
+    },
   },
-  { timestamp: true }
+  { timestamps: true }
 );
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);

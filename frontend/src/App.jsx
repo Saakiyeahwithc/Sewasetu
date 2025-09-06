@@ -14,7 +14,7 @@ import About from "./pages/LandingPage/About";
 import Register from "./pages/Auth/Register";
 import SkillDevelopmentPage from "./pages/LandingPage/Skilldevelopment";
 import FindJobs from "./pages/JobSeeker/Findjobs";
-import JobPostingForm from "./pages/Employer/JobPostinForm";
+import JobPostingForm from "./pages/Employer/JobPostingForm";
 import ProtectedRoute from "./routes/Protectedroute";
 import ManageJobs from "./pages/Employer/ManageJobs";
 import EmployerProfilePage from "./pages/Employer/EmployerProfilePage";
@@ -46,7 +46,6 @@ function App() {
 
         <Route element={<ProtectedRoute allowedRoles="jobseeker" />}>
           <Route path="/jobseekerdashboard" element={<JobseekerDashboard />} />
-          <Route path="/findJobs" element={<FindJobs />} />
           <Route path="/job/:jobId" element={<JobDetails />} />
           <Route path="/saved-jobs" element={<SavedJobs />} />
           <Route path="/profile" element={<UserProfile />} />
