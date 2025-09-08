@@ -5,20 +5,18 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Navbar from "./components/Navbar";
 import Home from "./pages/LandingPage/Home";
 import JobseekerDashboard from "./pages/JobSeeker/Jobseekerdashboard";
 import Employerdashboard from "./pages/Employer/Employerdashboard";
 import Login from "./pages/Auth/Login";
 import About from "./pages/LandingPage/About";
-import Register from "./pages/Auth/Register";
+import Register from "./pages/Auth/register";
 import SkillDevelopmentPage from "./pages/LandingPage/Skilldevelopment";
-import FindJobs from "./pages/JobSeeker/Findjobs";
 import JobPostingForm from "./pages/Employer/JobPostingForm";
 import ProtectedRoute from "./routes/Protectedroute";
 import ManageJobs from "./pages/Employer/ManageJobs";
 import EmployerProfilePage from "./pages/Employer/EmployerProfilePage";
-import ApplicationViewer from "./pages/Employer/Applicationviewer";
+import ApplicationViewer from "./pages/Employer/ApplicationViewer";
 import SavedJobs from "./pages/JobSeeker/SavedJobs";
 import JobDetails from "./pages/JobSeeker/JobDetails";
 import UserProfile from "./pages/JobSeeker/UserProfile";
@@ -48,7 +46,7 @@ function App() {
           <Route path="/jobseekerdashboard" element={<JobseekerDashboard />} />
           <Route path="/job/:jobId" element={<JobDetails />} />
           <Route path="/saved-jobs" element={<SavedJobs />} />
-          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/profile/:id" element={<UserProfile />} />
           <Route path="/SkillDevelopment" element={<SkillDevelopmentPage />} />
         </Route>
 

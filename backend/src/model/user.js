@@ -34,11 +34,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    jobTitle: {
-      type: String,
-      default: "",
-    },
-    jobDescription: {
+    companyDescription: {
       type: String,
       default: "",
     },

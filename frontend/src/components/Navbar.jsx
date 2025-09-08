@@ -36,12 +36,6 @@ export function Navbar() {
         </nav>
         <div className="flex items-center gap-3">
           <button
-            size="icon"
-            className="rounded-full bg-emerald-100 hover:bg-emerald-200 h-10 w-10 cursor-pointer flex items-center justify-center transition-colors mr-5"
-          >
-            <Moon className="size-6 text-emerald-700" />
-          </button>
-          <button
             onClick={() => {
               navigate("/Login");
             }}

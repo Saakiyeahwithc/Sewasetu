@@ -26,7 +26,7 @@ import toast from "react-hot-toast";
 import axiosInstance from "../../utils/axiosInstance.js";
 import { useAuth } from "../../context/AuthContext.jsx";
 
-export default function RegistrationPage() {
+export default function Register() {
   const { login } = useAuth();
   const [role, setRole] = useState("jobseeker");
   const navigate = useNavigate();
@@ -213,7 +213,7 @@ export default function RegistrationPage() {
         toast.error(
           "Registration successful but missing user data. Please try logging in."
         );
-        setTimeout(() => navigate("/login"), 2000);
+        setTimeout(() => navigate("/login"), 1000);
       }
     } catch (error) {
       // Use a ref or flag to prevent double toast

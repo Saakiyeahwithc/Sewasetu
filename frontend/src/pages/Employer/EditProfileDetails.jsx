@@ -10,7 +10,6 @@ const EditProfileDetails = ({
   saving = false,
   uploading = { avatar: false, logo: false },
 }) => {
-  // Add safety checks
   const isUploadingAvatar = uploading?.avatar || false;
   const isUploadingLogo = uploading?.logo || false;
   const isSaving = saving || false;

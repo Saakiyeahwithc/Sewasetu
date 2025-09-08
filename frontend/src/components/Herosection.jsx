@@ -20,7 +20,7 @@ const Herosection = () => {
 
           <div className="flex flex-col sm:flex-row gap-4">
             <button
-              onClick={() => navigate("/FindJobs")}
+              onClick={() => navigate("/login")}
               className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-6 text-lg font-medium rounded-lg"
             >
               {"I'm Looking for Work"}

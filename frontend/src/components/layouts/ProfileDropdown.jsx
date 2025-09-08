@@ -1,5 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const ProfileDropdown = ({
   isOpen,
@@ -7,9 +8,11 @@ const ProfileDropdown = ({
   avatar,
   companyName,
   email,
+  userRole,
   onLogout,
 }) => {
   const navigate = useNavigate();
+  const { logout, user } = useAuth();
 
   return (
     <div className="relative">
@@ -17,7 +20,7 @@ const ProfileDropdown = ({
         onClick={onToggle}
         className="flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-50 transition-colors duration-200"
       >
-        {avatar ? (
+        {avatar && avatar.trim() !== "" ? (
           <img
             src={avatar}
             alt="avatar"
@@ -34,7 +37,13 @@ const ProfileDropdown = ({
           <p className="text-sm font-medium text-gray-900">
             {companyName || "User"}
           </p>
-          <p className="text-xs text-gray-500">Employer</p>
+          <p className="text-xs text-gray-500">
+            {userRole === "jobseeker"
+              ? "Job Seeker"
+              : userRole === "employer"
+              ? "Employer"
+              : "User"}
+          </p>
         </div>
         <ChevronDown className="h-4 w-4 text-gray-400" />
       </button>
@@ -49,14 +58,20 @@ const ProfileDropdown = ({
           </div>
 
           <button
-            onClick={() => navigate("/company-profile")}
+            onClick={() => {
+              if (userRole === "jobseeker") {
+                navigate(`/profile/${user?._id}`);
+              } else {
+                navigate("/company-profile");
+              }
+            }}
             className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
           >
             View Profile
           </button>
           <div className="border-t border-gray-100 mt-2 pt-2">
             <button
-              onClick={onLogout}
+              onClick={logout}
               className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
             >
               Sign out

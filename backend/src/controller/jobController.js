@@ -88,64 +88,35 @@ export const getAllJobs = async (req, res) => {
 
 export const getJobById = async (req, res) => {
   try {
-    console.log("getJobById called with params:", req.params);
-    console.log("Job ID:", req.params.id);
-    console.log("User ID:", req.user?._id);
-
-    const jobId = req.params.id;
-    
-    // Validate job ID format
-    if (!jobId || jobId.length !== 24) {
-      console.log("Invalid job ID format:", jobId);
-      return res.status(400).json({
-        status: false,
-        message: "Invalid job ID format.",
-      });
-    }
-
     const userId = req.user._id;
-    const job = await Job.findById(jobId);
-    
+    const job = await Job.findById(req.params.id);
     if (!job) {
-      console.log("Job not found with ID:", jobId);
       return res.status(404).json({
         status: false,
         message: "No jobs found.",
       });
     }
-
-    console.log("Job found:", job.title);
-
     let applicationStatus = null;
     if (userId) {
-      try {
-        const application = await Application.findOne({
-          job: job._id,
-          applicant: userId,
-        }).select("status");
+      const application = await Application.findOne({
+        job: job._id,
+        applicant: userId,
+      }).select("status");
 
-        if (application) {
-          applicationStatus = application.status;
-        }
-        console.log("Application status:", applicationStatus);
-      } catch (appError) {
-        console.error("Error fetching application status:", appError);
-        // Continue without application status rather than failing
+      if (application) {
+        applicationStatus = application.status;
       }
     }
 
-    console.log("Sending job details response");
     res.json({
       ...job.toObject(),
       applicationStatus,
     });
   } catch (error) {
-    console.error("Error in getJobById:", error);
-    console.error("Error stack:", error.stack);
-    console.error("Error name:", error.name);
+    console.log(error);
     res.status(500).json({
       status: false,
-      message: "Error occurred while fetching job details",
+      message: "Error occured",
       error: error.message,
     });
   }

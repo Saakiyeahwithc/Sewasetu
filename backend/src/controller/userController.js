@@ -70,7 +70,7 @@ export const getAllUsers = async (req, res) => {
 
 export const getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params._id);
     if (!user || user.length === 0) {
       return res.status(400).json({
         status: false,
@@ -92,9 +92,9 @@ export const getUserById = async (req, res) => {
   }
 };
 
-export const updateUser = async (req, res) => {
+export const updatedUser = async (req, res) => {
   try {
-    const id = req.params.id;
+    const id = req.params._id;
     const updates = req.body;
     const updatedUser = await User.findByIdAndUpdate(id, updates, {
       new: true,
@@ -125,12 +125,12 @@ export const updateUser = async (req, res) => {
 // delete resume file
 export const deleteUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
+    const user = await User.findByIdAndDelete(req.params._id);
 
     if (!user) {
       return res.status(400).json({
         status: false,
-        message: `No users with id ${req.params.id} found`,
+        message: `No users with id ${req.params._id} found`,
       });
     }
 
@@ -143,130 +143,133 @@ export const deleteUser = async (req, res) => {
     console.log(error);
     res.status(500).json({
       status: false,
-      message: `Error occured while deleting the data of user ${req.params.id}`,
+      message: `Error occured while deleting the data of user ${req.params._id}`,
       error: error.message,
     });
   }
 };
 
 export const updateProfile = async (req, res) => {
-  try {
-    console.log("Update profile called");
-    console.log("User ID:", req.user?._id);
-    console.log("Request body:", req.body);
+  console.log("=== UPDATE PROFILE ENDPOINT CALLED ===");
+  console.log("Request headers:", req.headers);
+  console.log(
+    "Request user:",
+    req.user
+      ? { id: req.user._id, email: req.user.email, role: req.user.role }
+      : "No user"
+  );
+  console.log("Received updateProfile payload:", req.body); // Log request body for debugging
 
-    const { name, avatar, jobTitle, jobDescription, resume, companyName } =
-      req.body;
+  try {
+    if (!req.user) {
+      console.log("❌ No authenticated user found");
+      return res.status(401).json({ message: "User not authenticated" });
+    }
+
+    const {
+      name,
+      avatar,
+      companyDescription,
+      resume,
+      companyName,
+      companyLogo,
+    } = req.body;
+
+    console.log("Extracted fields:", {
+      name,
+      avatar,
+      resume,
+      companyDescription,
+      companyName,
+      companyLogo,
+    });
 
     const user = await User.findById(req.user._id);
 
     if (!user) {
-      console.log("User not found with ID:", req.user._id);
-      return res.status(404).json({
-        message: "User not found.",
-      });
+      console.log("❌ User not found with ID:", req.user._id);
+      return res.status(404).json({ message: "User not found." });
     }
 
-    console.log("Found user:", user.name, "Role:", user.role);
-    console.log("Existing user data:", {
-      name: user.name,
-      avatar: user.avatar,
-      jobTitle: user.jobTitle,
-      jobDescription: user.jobDescription,
-      companyName: user.companyName,
-      resume: user.resume,
+    console.log("✅ Found user:", {
+      id: user._id,
+      email: user.email,
+      role: user.role,
     });
 
-    // Update basic fields with validation
-    try {
-      if (name !== undefined && name !== null) {
-        user.name = name;
-        console.log("Updated name to:", name);
+    if (name !== undefined && name !== null) {
+      if (typeof name !== "string" || name.trim() === "") {
+        console.log("❌ Invalid name:", name);
+        return res
+          .status(400)
+          .json({ message: "Name must be a non-empty string" });
       }
-      if (avatar !== undefined) {
-        user.avatar = avatar;
-        console.log("Updated avatar to:", avatar);
-      }
-      if (resume !== undefined) {
-        user.resume = resume;
-        console.log("Updated resume to:", resume);
-      }
-
-      // Update employer-specific fields
-      if (user.role === "employer") {
-        if (jobTitle !== undefined) {
-          user.jobTitle = jobTitle;
-          console.log("Updated jobTitle to:", jobTitle);
-        }
-        if (jobDescription !== undefined) {
-          user.jobDescription = jobDescription || "";
-          console.log("Updated jobDescription to:", jobDescription);
-        }
-        if (companyName !== undefined) {
-          user.companyName = companyName || "";
-          console.log("Updated companyName to:", companyName);
-        }
-      }
-
-      console.log("About to save user...");
-      console.log("User data before save:", {
-        _id: user._id,
-        name: user.name,
-        avatar: user.avatar,
-        jobTitle: user.jobTitle,
-        jobDescription: user.jobDescription,
-        companyName: user.companyName,
-        resume: user.resume,
-      });
-
-      // Use findByIdAndUpdate instead of save() to avoid potential schema issues
-      const updatedUser = await User.findByIdAndUpdate(
-        req.user._id,
-        {
-          name: user.name,
-          avatar: user.avatar || "",
-          resume: user.resume || "",
-          jobTitle: user.jobTitle || "",
-          jobDescription: user.jobDescription || "",
-          companyName: user.companyName || "",
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
-
-      console.log("User updated successfully");
-
-      res.json({
-        _id: updatedUser._id,
-        name: updatedUser.name,
-        avatar: updatedUser.avatar || "",
-        role: updatedUser.role,
-        jobTitle: updatedUser.jobTitle || "",
-        jobDescription: updatedUser.jobDescription || "",
-        companyName: updatedUser.companyName || "",
-        resume: updatedUser.resume || "",
-        email: updatedUser.email,
-      });
-    } catch (saveError) {
-      console.error("Error during save operation:", saveError);
-      console.error("Save error details:", {
-        name: saveError.name,
-        message: saveError.message,
-        stack: saveError.stack,
-      });
-      throw saveError;
+      user.name = name.trim();
+      console.log("Updated name to:", name.trim());
     }
-  } catch (err) {
-    console.error("Error in updateProfile:", err);
-    console.error("Error stack:", err.stack);
-    console.error("Error name:", err.name);
-    console.error("Error message:", err.message);
-    res.status(500).json({
-      message: err.message,
-      error: err.stack,
-      errorName: err.name,
+
+    if (avatar !== undefined) {
+      user.avatar = avatar || "";
+      console.log("Updated avatar to:", avatar);
+    }
+
+    if (resume !== undefined) {
+      user.resume = resume || "";
+      console.log("Updated resume to:", resume);
+    }
+
+    if (user.role === "employer") {
+      if (companyDescription !== undefined) {
+        user.companyDescription = companyDescription || "";
+        console.log("Updated companyDescription to:", companyDescription);
+      }
+      if (companyName !== undefined) {
+        user.companyName = companyName || "";
+        console.log("Updated companyName to:", companyName);
+      }
+      if (companyLogo !== undefined) {
+        user.companyLogo = companyLogo || "";
+        console.log("Updated companyLogo to:", companyLogo);
+      }
+    }
+
+    console.log("Attempting to save user...");
+    // Save the modified user document
+    const updatedUser = await user.save();
+
+    console.log("✅ User updated successfully");
+    return res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      avatar: updatedUser.avatar || "",
+      role: updatedUser.role,
+      companyDescription: updatedUser.companyDescription || "",
+      companyName: updatedUser.companyName || "",
+      resume: updatedUser.resume || "",
+      email: updatedUser.email,
+    });
+  } catch (error) {
+    console.error("❌ Error during updateProfile:", error);
+    console.error("Error name:", error.name);
+    console.error("Error message:", error.message);
+    console.error("Error stack:", error.stack);
+
+    // Handle validation errors specifically
+    if (error.name === "ValidationError") {
+      const validationErrors = Object.values(error.errors).map(
+        (err) => err.message
+      );
+      console.error("Validation errors:", validationErrors);
+      return res.status(400).json({
+        message: "Validation failed",
+        errors: validationErrors,
+      });
+    }
+
+    return res.status(500).json({
+      message: error.message,
+      errorName: error.name,
+      stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
     });
   }
 };
@@ -317,7 +320,7 @@ export const deleteResume = async (req, res) => {
 
 export const getPublicProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select("-password");
+    const user = await User.findById(req.params._idid).select("-password");
 
     if (!user) return res.status(404).json({ message: "User not Found" });
 

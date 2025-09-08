@@ -19,19 +19,8 @@ router.post("/create", authenticateToken, createJob);
 router.get("/get", authenticateToken, getAllJobs);
 router.get("/get-jobs-employer", authenticateToken, getJobsEmployer);
 router.delete("/delete/:id", authenticateToken, deleteJob);
-router.get("/get/:id", (req, res, next) => {
-  console.log("Job details route hit with ID:", req.params.id);
-  next();
-}, authenticateToken, getJobById);
+router.get("/get/:id", authenticateToken, getJobById);
 router.put("/update/:id", authenticateToken, updateJob);
-router.put(
-  "/toggle-close/:id",
-  (req, res, next) => {
-    console.log("Toggle close route hit with ID:", req.params.id);
-    next();
-  },
-  authenticateToken,
-  toggleCloseJob
-);
+router.put("/toggle-close/:id", authenticateToken, toggleCloseJob);
 
 export default router;

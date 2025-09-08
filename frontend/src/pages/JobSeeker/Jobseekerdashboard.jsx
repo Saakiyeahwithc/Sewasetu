@@ -142,7 +142,7 @@ const Jobseekerdashboard = () => {
           <FilterContent
             toggleSection={toggleSection}
             clearAllFilters={clearAllFilters}
-            expandSections={expandSection}
+            expandSection={expandSection}
             filters={filters}
             handleFilterChange={handleFilterChange}
           />
@@ -205,7 +205,7 @@ const Jobseekerdashboard = () => {
                 <FilterContent
                   toggleSection={toggleSection}
                   clearAllFilters={clearAllFilters}
-                  expandSections={expandSection}
+                  expandSection={expandSection}
                   filters={filters}
                   handleFilterChange={handleFilterChange}
                 />
@@ -233,23 +233,23 @@ const Jobseekerdashboard = () => {
                     <Filter className="w-4 h-4" />
                     Filters
                   </button>
-                  <div className="flex items-center gap-3 lg:gap-4">
+                  <div className="flex items-center gap-3 lg:gap-4 ">
                     <div className="flex items-center border border-gray-200 rounded-xl p-1 bg-white ">
                       <button
                         onClick={() => setViewMode("grid")}
                         className={`p-2 rounded-lg transtiton-colors ${
                           viewMode === "grid"
-                            ? "bg-blue-600 text-white shadow-sm"
+                            ? "bg-emerald-600 text-white shadow-sm"
                             : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                         }`}
                       >
-                        <Grid className="w-4 h-4" />
+                        <Grid className="w-4 h-4 " />
                       </button>
                       <button
                         onClick={() => setViewMode("list")}
                         className={`p-2 rounded-lg transition-colors ${
                           viewMode === "list"
-                            ? "bg-blue-600 text-white shadow-sm"
+                            ? "bg-emerald-600 text-white shadow-sm"
                             : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                         }`}
                       >

@@ -185,6 +185,7 @@ const DashboardLayout = ({ activeMenu, children }) => {
               avatar={user?.avatar || ""}
               companyName={user?.name || ""}
               email={user?.email || ""}
+              userRole={user?.role || ""}
               onLogout={logout}
             />
           </div>

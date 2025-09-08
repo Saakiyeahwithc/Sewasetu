@@ -1,7 +1,7 @@
 import {
   getAllUsers,
   getUserById,
-  updateUser,
+  updatedUser,
   deleteUser,
   getPublicProfile,
   deleteResume,
@@ -15,18 +15,9 @@ const router = express.Router();
 
 //protected routes
 router.post("/resume", authenticateToken, deleteResume);
-router.put("/:id", authenticateToken, updateUser);
+router.put("/:id", authenticateToken, updatedUser);
 router.get("/profile", authenticateToken, getCurrentUserProfile);
-router.put(
-  "/profile",
-  (req, res, next) => {
-    console.log("Profile update route hit");
-    console.log("Request body:", req.body);
-    next();
-  },
-  authenticateToken,
-  updateProfile
-);
+router.put("/profile", authenticateToken, updateProfile);
 
 //Public routes
 router.get("/", getAllUsers);

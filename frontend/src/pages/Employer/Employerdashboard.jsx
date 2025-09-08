@@ -114,9 +114,6 @@ export function Employerdashboard() {
     getDashboardOverview();
     return () => {};
   }, []);
-  const handleLogout = () => {
-    navigate("/login");
-  };
 
   return (
     <DashboardLayout activeMenu="employer-dashboard">
@@ -165,7 +162,7 @@ export function Employerdashboard() {
                 <button
                   className="text-blue-600 hover:text-blue-800 font-medium"
                   onClick={() => {
-                    navigate("/manage-jobs");
+                    navigate("/manage-job");
                   }}
                 >
                   View All
@@ -197,14 +194,25 @@ export function Employerdashboard() {
               <div className="space-y-3">
                 {dashboardData?.data?.recentApplications
                   ?.slice(0, 3)
-                  ?.map((data, index) => (
-                    <ApplicantDashboardCard
-                      key={index}
-                      applicant={data?.applicant || ""}
-                      position={data?.job?.title || ""}
-                      time={moment(data?.updateAt).fromNow()}
-                    />
-                  ))}
+                  ?.map((data, index) => {
+                    // Handle case where applicant exists but doesn't have a name
+                    const applicantWithName = {
+                      ...data?.applicant,
+                      name:
+                        data?.applicant?.name ||
+                        data?.applicant?.email ||
+                        "Unknown User",
+                    };
+
+                    return (
+                      <ApplicantDashboardCard
+                        key={index}
+                        applicant={applicantWithName}
+                        position={data?.job?.title || ""}
+                        time={moment(data?.updateAt).fromNow()}
+                      />
+                    );
+                  })}
               </div>
             </Card>
           </div>

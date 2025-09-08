@@ -50,7 +50,7 @@ export const getMyApplication = async (req, res) => {
 //Get all applicants for a Job (for employer)
 export const getApplicantsForJob = async (req, res) => {
   try {
-    const job = await Job.findById({ applicant: req.params.jobId });
+    const job = await Job.findById({ applicant: req.params._id });
     if (!job || job.company.toString() !== req.user._id.toString()) {
       return res
         .status(403)
